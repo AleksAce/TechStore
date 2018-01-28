@@ -16,7 +16,11 @@ namespace TechStore
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
+<<<<<<< HEAD
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+=======
+                defaults: new { controller = "Store", action = "Index", id = UrlParameter.Optional }
+>>>>>>> DataAccess
             );
         }
     }

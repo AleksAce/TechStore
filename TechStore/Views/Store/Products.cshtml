@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html ng-app="storeApp">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Products</title>
+</head>
+<body ng-controller="productController">
+    <div>
+        {{message}}
+        <ng-view></ng-view>
+    </div>
+    <div>
+        <a href="#!ProductList">Products</a>
+        <a href="#!Product2">Product2</a>
+        @Html.ActionLink("Home", "Index", "Store")
+    </div>
+</body>
+</html>
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script src="~/Scripts/ProductJS/module.js"></script>
+<script src="~/Scripts/ProductJS/controller.js"></script>
+
+<script src="~/Scripts/ProductJS/services.js"></script>
