@@ -1,0 +1,3 @@
+﻿storeApp.factory("productFactory", function () {
+
+});
