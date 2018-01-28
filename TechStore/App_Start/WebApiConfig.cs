@@ -19,10 +19,9 @@ namespace TechStore
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-<<<<<<< HEAD
-=======
+
             config.Formatters.Remove(config.Formatters.XmlFormatter);
->>>>>>> DataAccess
+
         }
     }
 }
