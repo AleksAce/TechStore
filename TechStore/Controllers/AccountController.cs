@@ -32,6 +32,7 @@ namespace TechStore.Controllers
         }
         public ApplicationRoleManager RoleManager
         {
+            
             get
             {
                 return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();

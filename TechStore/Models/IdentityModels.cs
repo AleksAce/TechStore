@@ -26,16 +26,24 @@ namespace TechStore.Models
 
         }
     }
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class EntityDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+        public EntityDbContext()
             : base("EntityDB", throwIfV1Schema: false)
         {
+         // Database.SetInitializer(new DropCreateDatabaseAlways<EntityDbContext>());
         }
 
-        public static ApplicationDbContext Create()
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            return new ApplicationDbContext();
+            base.OnModelCreating(modelBuilder);
+            
+           
+
+        }
+        public static EntityDbContext Create()
+        {
+            return new EntityDbContext();
         }
 
 
