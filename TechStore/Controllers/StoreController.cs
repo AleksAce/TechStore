@@ -14,6 +14,7 @@ namespace TechStore.Controllers
         ProductRepository Productrepo = new ProductRepository();
         OrderRepository Orderrepo = new OrderRepository();
         CategoryRepository CategoryRepo = new CategoryRepository();
+      
         public async Task<ActionResult> Index()
         {
            
