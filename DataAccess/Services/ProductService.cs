@@ -12,6 +12,7 @@ namespace DataAccess.Services
     public interface IProductService
     {
         Product GetProductByName(string name);
+        Task AddToCategory(int productID, int categoryID);
     }
     //Specific Service for products
     public class ProductService : StoreBaseService<Product>, IProductService
@@ -26,6 +27,11 @@ namespace DataAccess.Services
         public Product GetProductByName(string name)
         {
             return productRepository.GetProductByName(name);
+            
+        }
+        public async Task AddToCategory(int productID, int categoryID)
+        {
+           await productRepository.AddToCategory(productID, categoryID);
         }
 
     }

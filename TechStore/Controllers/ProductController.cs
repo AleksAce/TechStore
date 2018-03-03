@@ -17,17 +17,24 @@ namespace TechStore.Controllers
         ProductService productService;
         //Global
 
-        IStoreService<Order> orderService;
-        public ProductController(ProductService prodService, IStoreService<Order> orderService)
+        IStoreService<Order> _orderService;
+        IStoreService<Category> _categoryService;
+        public ProductController(ProductService prodService,
+                                IStoreService<Category> categoryService,
+                                IStoreService<Order> orderService)
         {
             productService = prodService;
-            this.orderService = orderService;
+            _orderService = orderService;
+            _categoryService = categoryService;
         }
  
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
             List<Product> products = await productService.GetAllItemsAsync();
+            int[] num = { 1, 2, 3 };
+            
+            
             return Request.CreateResponse(HttpStatusCode.OK, products);
         }
         [HttpGet]

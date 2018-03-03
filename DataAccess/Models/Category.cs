@@ -13,7 +13,7 @@ namespace Models
 
         public Category()
         {
-            Products = new List<Product>();
+           
         }
     }
 }

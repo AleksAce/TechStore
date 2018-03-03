@@ -20,7 +20,7 @@ namespace Models
         public Order()
         {
             OrderDate = DateTime.Now;
-            ProductsOrdered = new List<Product>();
+           
         }
     }
 }

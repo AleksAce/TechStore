@@ -13,7 +13,7 @@ namespace TechStore.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201802141611293_Initial"; }
+            get { return "201803031513176_Initial"; }
         }
         
         string IMigrationMetadata.Source

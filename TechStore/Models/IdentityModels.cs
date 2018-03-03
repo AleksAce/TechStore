@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -26,26 +28,49 @@ namespace TechStore.Models
 
         }
     }
+    
     public class EntityDbContext : IdentityDbContext<ApplicationUser>
     {
         public EntityDbContext()
             : base("EntityDB", throwIfV1Schema: false)
         {
-         // Database.SetInitializer(new DropCreateDatabaseAlways<EntityDbContext>());
+            //Database.SetInitializer(new EntityInitializer());
+            this.Configuration.LazyLoadingEnabled = true;
+            
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
-           
-
+        
         }
+        
         public static EntityDbContext Create()
         {
             return new EntityDbContext();
         }
 
 
+    }
+    public class EntityInitializer : DropCreateDatabaseAlways<EntityDbContext>
+    {
+        protected override void Seed(EntityDbContext context)
+        {
+            base.Seed(context);
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(context));
+
+             RoleManager.Create(new ApplicationRole() { Name = "HeadAdmin" });
+             RoleManager.Create(new ApplicationRole() { Name = "Admin" });
+             RoleManager.Create(new ApplicationRole() { Name = "User" });
+            UserManager.Create(new ApplicationUser() { UserName = "HeadAdmin", Email = "HeadAdmin@live.com" }, "password");
+             var user = UserManager.FindByName("HeadAdmin");
+             var role = RoleManager.FindByName("HeadAdmin");
+            if (!UserManager.IsInRole(user.Id, role.Name))
+            {
+                UserManager.AddToRole(user.Id, role.Name);
+            }
+        }
     }
 }
