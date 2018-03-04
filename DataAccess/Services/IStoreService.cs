@@ -11,9 +11,9 @@ namespace DataAccess.Services
         void AddItem(T entity);
         void EditItem(T entity);
         void DeleteItem(T entity);
-        void DeleteItemByIDAsync(int id);
+        Task DeleteItemByIDAsync(int id);
         Task<T> GetItemByIDAsync(int id);
         Task<List<T>> GetAllItemsAsync();
-        Task SaveAllItems();
+        Task SaveAllItemsAsync();
     }
 }

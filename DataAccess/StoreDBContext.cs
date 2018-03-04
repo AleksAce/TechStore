@@ -16,9 +16,10 @@ namespace DataAccess
 
         public StoreDBContext() : base("StoreDBContext")
         {///
-            //  Database.SetInitializer(new StoreDBInitializer());
-            Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
-            //this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false;
+            Database.SetInitializer(new StoreDBInitializer());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
+            
         }
 
         public DbSet<Product> Products { get; set; }
@@ -33,21 +34,35 @@ namespace DataAccess
     {
         protected override void Seed(StoreDBContext context)
         {
-            ProductService productService = new ProductService();
+            Product product1 = new Product { Name = "Product1", Category = new Category() };
+            Product product2 = new Product { Name = "Product2", Category = new Category() };
+            Product product3 = new Product { Name = "Product3", Category = new Category() };
+            Product product4 = new Product { Name = "Product4", Category = new Category() };
+            Product product5 = new Product { Name = "Product5", Category = new Category() };
+            Product product6 = new Product { Name = "Product6", Category = new Category() };
 
-            context.Categories.Add(new Category() { Name = "Default1" });
-            context.Products.Add(new Product() { Name = "Product1" });
-            context.Products.Add(new Product() { Name = "Product2" });
-            context.Products.Add(new Product() { Name = "Product3" });
-            context.Products.Add(new Product() { Name = "Product4" });
-            context.Products.Add(new Product() { Name = "Product5" });
+            Category category1 = new Category { Name = "Category1", Products = new List<Product>() };
+            Category category2 = new Category { Name = "Category2", Products = new List<Product>() };
 
+            product1.Category = category1;
+            product2.Category = category1;
+            product3.Category = category1;
+                                     
+            product4.Category = category2;
+            product5.Category = category2;
+            product6.Category = category2;  
             
-
-            foreach (Product prod in context.Products.ToList())
-            {
-                productService.AddToCategory(prod.ProductID, 1).RunSynchronously();
-            }
+            
+            context.Products.Add(product1);
+            context.Products.Add(product2);
+            context.Products.Add(product3);
+            context.Products.Add(product4);
+            context.Products.Add(product5);
+            context.Products.Add(product6);
+           
+           
+           
+            context.SaveChanges();
             base.Seed(context);
         }
 

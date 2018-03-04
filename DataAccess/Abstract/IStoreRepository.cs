@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
         void Add(T entity);
         void Edit(T entity);
         void Delete(T entity);
-        void DeleteByIDAsync(int id);
+        Task DeleteByIDAsync(int id);
         Task<T> GetByIDAsync(int id);
         Task<List<T>> GetAllAsync();
         Task SaveAll();

@@ -22,8 +22,8 @@ namespace Models
         public DateTime? AvailableInStockTime { get; set; }
         //Category Info
         
-        public int? CategoryID { get; set; }
-        public virtual Category category { get; set; }
+        public int CategoryID { get; set; }
+        public virtual Category Category { get; set; }
 
         //Order Info
         public virtual List<Order> Orders { get; set; }

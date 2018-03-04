@@ -13,18 +13,14 @@ namespace TechStore.Controllers
 {
     public class ProductController : ApiController
     {
-        //Specific
+      
         ProductService productService;
-        //Global
-
-        IStoreService<Order> _orderService;
-        IStoreService<Category> _categoryService;
+        CategoryService _categoryService;
         public ProductController(ProductService prodService,
-                                IStoreService<Category> categoryService,
-                                IStoreService<Order> orderService)
+                                CategoryService categoryService)
         {
             productService = prodService;
-            _orderService = orderService;
+            
             _categoryService = categoryService;
         }
  
@@ -32,6 +28,8 @@ namespace TechStore.Controllers
         public async Task<HttpResponseMessage> Get()
         {
             List<Product> products = await productService.GetAllItemsAsync();
+            List<Category> categories = await _categoryService.GetAllItemsAsync();
+            
             int[] num = { 1, 2, 3 };
             
             

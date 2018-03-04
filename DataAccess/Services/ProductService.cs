@@ -8,31 +8,64 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Services
 {
-    //Service for products
+    //Specific to products
     public interface IProductService
     {
         Product GetProductByName(string name);
         Task AddToCategory(int productID, int categoryID);
     }
-    //Specific Service for products
-    public class ProductService : StoreBaseService<Product>, IProductService
+    
+    public class ProductService : IStoreService<Product>, IProductService
     {
-        //Specific for product while using the generic stuff
-        protected IProductRepository productRepository;
-        public ProductService() : base()
+        //ALWAYS use specific repository, can override the default methods
+        private ProductRepository productRepository;
+        public ProductService() 
         {
-            //Specific repository for product
             productRepository = new ProductRepository();
+           
         }
         public Product GetProductByName(string name)
         {
             return productRepository.GetProductByName(name);
-            
         }
         public async Task AddToCategory(int productID, int categoryID)
         {
            await productRepository.AddToCategory(productID, categoryID);
         }
 
+        public void AddItem(Product entity)
+        {
+            productRepository.Add(entity);
+        }
+
+        public void EditItem(Product entity)
+        {
+            productRepository.Edit(entity);
+        }
+
+        public void DeleteItem(Product entity)
+        {
+            productRepository.Delete(entity);
+        }
+
+        public async Task DeleteItemByIDAsync(int id)
+        {
+           await productRepository.DeleteByIDAsync(id);
+        }
+
+        public async Task<Product> GetItemByIDAsync(int id)
+        {
+            return await productRepository.GetByIDAsync(id);
+        }
+
+        public async Task<List<Product>> GetAllItemsAsync()
+        {
+            return await productRepository.GetAllAsync();
+        }
+
+        public async Task SaveAllItemsAsync()
+        {
+            await productRepository.SaveAll();
+        }
     }
 }

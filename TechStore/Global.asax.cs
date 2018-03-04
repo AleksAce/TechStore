@@ -29,8 +29,8 @@ namespace TechStore
         private void RegisterServices(IKernel kernel)
         {
             //Bind everything Here
-            kernel.Bind<IStoreService<Order>>().To<StoreBaseService<Order>>();
-            kernel.Bind<IStoreService<Category>>().To<StoreBaseService<Category>>();
+            
+            kernel.Bind<CategoryService>().To<CategoryService>();
             kernel.Bind<ProductService>().To<ProductService>();
         }
 

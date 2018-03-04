@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {  
- 
+    //IMPORTANT: MUST Create specific repositories which can override the base methods.
+    //IMPORTANT: Override base methods since Lazy Loading is disabled. or enable it in the constructor per service
+    //Use the specific repository in your Specific SERVICE!
     public class StoreBaseRepository<T> : IStoreRepository<T> where T : class
     {
         protected StoreDBContext context = new StoreDBContext();
@@ -25,25 +27,25 @@ namespace DataAccess.Abstract
             
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             dbSet.Remove(entity);
         }
-        public async void DeleteByIDAsync(int id)
+        public virtual async Task DeleteByIDAsync(int id)
         {
             T entity = await dbSet.FindAsync(id);
             dbSet.Remove(entity);
         }
-        public void Edit(T entity)
+        public virtual void Edit(T entity)
         {
             dbSet.Attach(entity);  
         }
-        public async Task<List<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIDAsync(int id)
+        public virtual async Task<T> GetByIDAsync(int id)
         {
             return await dbSet.FindAsync(id);
         }
@@ -53,6 +55,6 @@ namespace DataAccess.Abstract
             await context.SaveChangesAsync();
         }
 
-       
+        
     }
 }
