@@ -29,7 +29,8 @@ namespace TechStore.Controllers
         {
             List<Product> products = await productService.GetAllItemsAsync();
             List<Category> categories = await _categoryService.GetAllItemsAsync();
-            
+
+            await productService.AddToCategory(products[0].ProductID, categories[1].CategoryID);
             int[] num = { 1, 2, 3 };
             
             

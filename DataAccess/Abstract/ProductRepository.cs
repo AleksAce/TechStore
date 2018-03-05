@@ -38,7 +38,7 @@ namespace DataAccess.Abstract
             Product prod = await context.Products.FindAsync(productID);
 
             Category cat =await context.Categories.FindAsync(categoryID);
-            cat.Products.Add(prod);
+            prod.Category = cat;
             await context.SaveChangesAsync();
         }
 
