@@ -33,9 +33,10 @@ namespace DataAccess.Services
         }
         public async Task AddToCategory(int productID, int categoryID)
         {
+            //Changing the ID. affects all tables
             Product prod = await _productRepository.GetByIDAsync(productID);
             Category cat = await _categoryRepository.GetByIDAsync(categoryID);
-            prod.Category = cat;
+            prod.CategoryID = cat.CategoryID;
             await _productRepository.SaveAll();
         }
 
