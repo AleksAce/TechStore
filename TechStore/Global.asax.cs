@@ -33,10 +33,9 @@ namespace TechStore
             
             kernel.Bind<ICategoryService>().To<CategoryService>();
             kernel.Bind<IProductService>().To<ProductService>();
+            kernel.Bind<IOrderService>().To<OrderService>();
 
-            //kernel.Bind<ProductRepository>().To<ProductRepository>();
-            //kernel.Bind<CategoryRepository>().To<CategoryRepository>();
-           // kernel.Bind<OrderRepository>().To<OrderRepository>();
+
 
         }
 

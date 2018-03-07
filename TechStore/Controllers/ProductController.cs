@@ -33,7 +33,7 @@ namespace TechStore.Controllers
             
             List<Product> products = await _productService.GetAllItemsAsync();
             List<Category> categories = await _categoryService.GetAllItemsAsync();
-
+           
             await _productService.AddToCategory(products[1].ProductID, categories[2].CategoryID);
             int[] num = { 1, 2, 3 };
             
