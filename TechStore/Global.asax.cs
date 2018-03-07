@@ -1,4 +1,5 @@
-﻿using DataAccess.Services;
+﻿using DataAccess.Abstract;
+using DataAccess.Services;
 using Models;
 using Ninject;
 using Ninject.Web.Common.WebHost;
@@ -30,8 +31,13 @@ namespace TechStore
         {
             //Bind everything Here
             
-            kernel.Bind<CategoryService>().To<CategoryService>();
-            kernel.Bind<ProductService>().To<ProductService>();
+            kernel.Bind<ICategoryService>().To<CategoryService>();
+            kernel.Bind<IProductService>().To<ProductService>();
+
+            //kernel.Bind<ProductRepository>().To<ProductRepository>();
+            //kernel.Bind<CategoryRepository>().To<CategoryRepository>();
+           // kernel.Bind<OrderRepository>().To<OrderRepository>();
+
         }
 
         protected override IKernel CreateKernel()

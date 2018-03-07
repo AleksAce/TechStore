@@ -8,50 +8,51 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Services
 {
-    public class CategoryService : IStoreService<Category>, ICategoryService
+    public interface ICategoryService : IStoreService<Category>
     {
-        private CategoryRepository categoryRepository;
-        public CategoryService()
+    }
+    public class CategoryService :  ICategoryService
+    {
+        private CategoryRepository _categoryRepository;
+        public CategoryService(CategoryRepository categoryRepository)
         {
-            categoryRepository = new CategoryRepository();
+            _categoryRepository = categoryRepository;
         }
         public void AddItem(Category entity)
         {
-            categoryRepository.Add(entity);
+            _categoryRepository.Add(entity);
         }
 
         public void DeleteItem(Category entity)
         {
-            categoryRepository.Delete(entity);
+            _categoryRepository.Delete(entity);
         }
 
         public async  Task DeleteItemByIDAsync(int id)
         {
-        await    categoryRepository.DeleteByIDAsync(id);
+        await    _categoryRepository.DeleteByIDAsync(id);
         }
 
         public void EditItem(Category entity)
         {
-            categoryRepository.Edit(entity);
+            _categoryRepository.Edit(entity);
         }
 
         public async Task<List<Category>> GetAllItemsAsync()
         {
-           return await categoryRepository.GetAllAsync();
+           return await _categoryRepository.GetAllAsync();
         }
 
         public async Task<Category> GetItemByIDAsync(int id)
         {
-            return await categoryRepository.GetByIDAsync(id);
+            return await _categoryRepository.GetByIDAsync(id);
         }
 
         public async Task SaveAllItemsAsync()
         {
-            await categoryRepository.SaveAll();
+            await _categoryRepository.SaveAll();
         }
     }
 
-    internal interface ICategoryService
-    {
-    }
+    
 }

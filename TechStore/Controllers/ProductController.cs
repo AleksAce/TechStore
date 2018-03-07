@@ -14,23 +14,27 @@ namespace TechStore.Controllers
     public class ProductController : ApiController
     {
       
-        ProductService productService;
-        CategoryService _categoryService;
-        public ProductController(ProductService prodService,
-                                CategoryService categoryService)
+        IProductService _productService;
+        ICategoryService _categoryService;
+        
+        public ProductController(IProductService prodService,
+                                ICategoryService categoryService
+                                )
         {
-            productService = prodService;
-            
+            _productService = prodService;
             _categoryService = categoryService;
+ 
         }
  
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
-            List<Product> products = await productService.GetAllItemsAsync();
+            
+            
+            List<Product> products = await _productService.GetAllItemsAsync();
             List<Category> categories = await _categoryService.GetAllItemsAsync();
 
-            await productService.AddToCategory(products[0].ProductID, categories[1].CategoryID);
+            await _productService.AddToCategory(products[1].ProductID, categories[2].CategoryID);
             int[] num = { 1, 2, 3 };
             
             
@@ -39,7 +43,7 @@ namespace TechStore.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Get(int id)
         {
-            Product product = await productService.GetItemByIDAsync(id);
+            Product product = await _productService.GetItemByIDAsync(id);
             return Request.CreateResponse(HttpStatusCode.OK, product);
         }
     }

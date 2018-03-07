@@ -12,8 +12,7 @@ namespace DataAccess.Abstract
     public interface IProductRepository
     {
         Product GetProductByName(string name);
-        Task AddToCategory(int productID, int categoryID);
-        Task RemoveFromCategory(int productID, int categoryID);
+       
     }
     //Important: USE THIS in your service
     public class ProductRepository : StoreBaseRepository<Product>  , IProductRepository
@@ -33,21 +32,6 @@ namespace DataAccess.Abstract
             List<Product> products = await dbSet.Include(p => p.Category).ToListAsync();
             return products;
         }
-        public async Task AddToCategory(int productID, int categoryID)
-        {
-            Product prod = await context.Products.FindAsync(productID);
-
-            Category cat =await context.Categories.FindAsync(categoryID);
-            prod.Category = cat;
-            await context.SaveChangesAsync();
-        }
-
-        public async Task RemoveFromCategory(int productID, int categoryID)
-        {
-            Product prod = await context.Products.FindAsync(productID);
-            Category cat = await context.Categories.FindAsync(categoryID);
-            cat.Products.Remove(prod);
-            await context.SaveChangesAsync();
-        }
+        
     }
 }

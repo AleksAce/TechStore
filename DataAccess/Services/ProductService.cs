@@ -9,63 +9,78 @@ using System.Threading.Tasks;
 namespace DataAccess.Services
 {
     //Specific to products
-    public interface IProductService
+    public interface IProductService :IStoreService<Product>
     {
         Product GetProductByName(string name);
         Task AddToCategory(int productID, int categoryID);
+        Task RemoveFromCategory(int productID, int categoryID);
     }
     
-    public class ProductService : IStoreService<Product>, IProductService
+    public class ProductService :  IProductService
     {
         //ALWAYS use specific repository, can override the default methods
-        private ProductRepository productRepository;
-        public ProductService() 
+        private ProductRepository _productRepository;
+        private CategoryRepository _categoryRepository;
+        public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) 
         {
-            productRepository = new ProductRepository();
+            _productRepository = productRepository;
+            _categoryRepository =categoryRepository;
            
         }
         public Product GetProductByName(string name)
         {
-            return productRepository.GetProductByName(name);
+            return _productRepository.GetProductByName(name);
         }
         public async Task AddToCategory(int productID, int categoryID)
         {
-           await productRepository.AddToCategory(productID, categoryID);
+            Product prod = await _productRepository.GetByIDAsync(productID);
+            Category cat = await _categoryRepository.GetByIDAsync(categoryID);
+            prod.Category = cat;
+            await _productRepository.SaveAll();
+        }
+
+        public async Task RemoveFromCategory(int productID, int categoryID)
+        {
+            Product prod = await _productRepository.GetByIDAsync(productID);
+            Category cat = await _categoryRepository.GetByIDAsync(categoryID);
+            //prod.Category = null;
+            cat.Products.Remove(prod);
+            await _categoryRepository.SaveAll();
         }
 
         public void AddItem(Product entity)
         {
-            productRepository.Add(entity);
+            _productRepository.Add(entity);
         }
 
         public void EditItem(Product entity)
         {
-            productRepository.Edit(entity);
+            _productRepository.Edit(entity);
         }
 
         public void DeleteItem(Product entity)
         {
-            productRepository.Delete(entity);
+            _productRepository.Delete(entity);
         }
 
         public async Task DeleteItemByIDAsync(int id)
         {
-           await productRepository.DeleteByIDAsync(id);
+           await _productRepository.DeleteByIDAsync(id);
         }
 
         public async Task<Product> GetItemByIDAsync(int id)
         {
-            return await productRepository.GetByIDAsync(id);
+            return await _productRepository.GetByIDAsync(id);
         }
 
         public async Task<List<Product>> GetAllItemsAsync()
         {
-            return await productRepository.GetAllAsync();
+            return await _productRepository.GetAllAsync();
         }
 
         public async Task SaveAllItemsAsync()
         {
-            await productRepository.SaveAll();
+            await _productRepository.SaveAll();
         }
     }
 }
