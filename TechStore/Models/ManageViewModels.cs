@@ -1,10 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
 namespace TechStore.Models
 {
+    public enum RolesEnum
+    {
+        HeadAdmin,
+        Admin,
+        User
+    }
     public class RoleViewModel
     {
         public RoleViewModel() { }
@@ -17,6 +24,23 @@ namespace TechStore.Models
         public string ID { get; set; }
         public string Name { get; set; }
         public List<ApplicationUser> Users { get; set; }
+    }
+    public class UserViewModel
+    {
+        public UserViewModel() { }
+        public UserViewModel(ApplicationUser user)
+        {
+            ID = user.Id;
+            UserName = user.UserName;
+            Email = user.Email;
+          
+        }
+        public string ID { get; set; }
+        public string UserName { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public RolesEnum Role { get; set; }
     }
     public class IndexViewModel
     {

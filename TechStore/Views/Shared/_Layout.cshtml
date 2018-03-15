@@ -22,6 +22,10 @@
                 <li> @Html.ActionLink("Products", "Products", "Store")</li>
                 <li>@Html.ActionLink("Home", "Index", "Store", new { area = "" }, null)</li>
                 <li>  @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                @{ //TODO: Make this accessible only to Head Admins/admins 
+
+                }
+                    <li> @Html.ActionLink("AdminPanel","Index","Admin")</li>
                 <li> @Html.Partial("_LoginPartial")</li>
             </ul>
          </div>

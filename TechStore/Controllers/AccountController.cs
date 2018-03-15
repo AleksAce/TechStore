@@ -167,9 +167,17 @@ namespace TechStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                IdentityResult result = new IdentityResult();
+                if (UserManager.FindByName(model.UserName) == null)
+                {
+                    result = await UserManager.CreateAsync(user, model.Password);
+                }
+                else
+                {
+                    return View(model);
+                }
+                
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddToRoleAsync(user.Id, "User");
