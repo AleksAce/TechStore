@@ -10,76 +10,79 @@
     @Styles.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Site.css" rel="stylesheet" />
-    
+
 </head>
 
-<body >
-    
+<body>
     <div id="preloader">
         <div class="fa-3x" id="loader">
             <i class="fas fa-spinner fa-spin"></i>
         </div>
     </div>
-<div class="main-content"  >
-    <nav  class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggler pull-xs-right" data-toggle="collapse" data-target=".navbar-collapse">
-                    ☰
-                </button>
-                @Html.ActionLink("Application name", "Index", "Store", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collaps">
-                <ul class="nav navbar-nav">
-                    <li> @Html.ActionLink("Products", "Products", "Store")</li>
-                    <li>@Html.ActionLink("Home", "Index", "Store", new { area = "" }, null)</li>
-                    <li>  @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    @{ //TODO: Make this accessible only to Head Admins/admins
 
+    <div class="main-content" style="display:none">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggler pull-xs-right" data-toggle="collapse" data-target=".navbar-collapse">
+                        ☰
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Store", new { area = "" }, new { @class = "navbar-brand" })
+                    @{ //Twitter/Github links
                     }
-                    <li> @Html.ActionLink("AdminPanel", "Index", "Admin")</li>
-                    <li> @Html.Partial("_LoginPartial")</li>
-                </ul>
-            </div>
-        </div><!-- /.container-fluid -->
-    </nav>
+                    <a href="/Twitter" class="fa-stack">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                    </a>
+                    <a href="/Github" class="fa-stack" style="color:orangered">
+                        <i class="fas fa-square fa-stack-2x"></i>
+                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                    </a>
+                </div>
+                <div class="navbar-collapse collaps">
+                    <ul class="nav navbar-nav">
+                        <li> @Html.ActionLink("Products", "Products", "Store")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Store", new { area = "" }, null)</li>
+                        <li>  @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                        @{ //TODO: Make this accessible only to Head Admins/admins
+                        }
+                        <li> @Html.ActionLink("AdminPanel", "Index", "Admin")</li>
+                        <li> @Html.Partial("_LoginPartial")</li>
+                    </ul>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
 
-    <section class="single-page- is-loaded">
-        <header class="page-title">
-            <i class="fa fa-user fa-3x">
 
-            </i>
-            <h2>Profile</h2>
-            <p class="menu-desc">Getting to know me</p>
-        </header>
-    </section>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <div class="row">
+                    <div class="copyright col-md-6 ">
+                        <p>Copyright &copy; @DateTime.Now.Year</p>
+                    </div>
+                    <div class="scroll-top col-md-6 ">
+                        <a href="#" id="scroll-to-top">
+                            <i class="fa fa-angle-up"></i>
+                        </a>
+                    </div>
+                </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+            </footer>
+        </div>
     </div>
-</div>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 
-
-<script type="text/javascript">
-    var removeLoader = function () {
-        setInterval(function () {
-            $('.main-content').css('display', 'initial');
-            $('#preloader').css('display', 'none');
-
-        }, 2000)
-    };
-    removeLoader();
-    $(document).ready(function () {
-        
-    });
-</script>
 </html>
+<style>
+    <link href="~/Content/Site.css" rel="stylesheet" / >
+</style>
+<script src="~/Scripts/Store/Store.js"></script>

@@ -22,7 +22,7 @@ textarea {
     width: 100%;
     height: 100%;
     position: fixed;
-    display:normal;
+    
   
 }
 #loader {
@@ -34,5 +34,20 @@ textarea {
     
 }
 .main-content{
-    display:none;
+   
+}
+body {
+    font-size: 1.6rem;
+    font-family: "PT Sans",sans-serif;
+}
+.scroll-top  {
+    text-align: right;
+}
+.scroll-top a {
+    background-color:burlywood;
+    padding: 25px;
+}
+
+.copyright{
+    text-align:left;
 }
