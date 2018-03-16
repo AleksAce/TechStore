@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="Aleksandar Angelovski" name="author" />
+    <link rel="shortcut icon" href="https://linustechtips.com/main/uploads/monthly_2017_09/A.png.044593500e8c1fd20587fc63455cdd6f.png" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/bundles/bootstrap")
@@ -17,20 +19,30 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Store", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-         <div class="navbar-collapse collaps">
+            <div class="navbar-collapse collaps">
                 <ul class="nav navbar-nav">
-                <li> @Html.ActionLink("Products", "Products", "Store")</li>
-                <li>@Html.ActionLink("Home", "Index", "Store", new { area = "" }, null)</li>
-                <li>  @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                @{ //TODO: Make this accessible only to Head Admins/admins 
+                    <li> @Html.ActionLink("Products", "Products", "Store")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Store", new { area = "" }, null)</li>
+                    <li>  @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    @{ //TODO: Make this accessible only to Head Admins/admins
 
-                }
-                    <li> @Html.ActionLink("AdminPanel","Index","Admin")</li>
-                <li> @Html.Partial("_LoginPartial")</li>
-            </ul>
-         </div>
+                    }
+                    <li> @Html.ActionLink("AdminPanel", "Index", "Admin")</li>
+                    <li> @Html.Partial("_LoginPartial")</li>
+                </ul>
+            </div>
         </div><!-- /.container-fluid -->
     </nav>
+
+    <section class="single-page- is-loaded">
+        <header class="page-title">
+            <i class="fa fa-user fa-3x">
+             
+            </i>
+            <h2>Profile</h2>
+            <p class="menu-desc">Getting to know me</p>
+        </header>
+    </section>
 
     <div class="container body-content">
         @RenderBody()
@@ -39,7 +51,8 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
