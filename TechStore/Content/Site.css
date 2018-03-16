@@ -15,3 +15,24 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#preloader {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display:normal;
+  
+}
+#loader {
+    height:50px;
+    width: 50px;
+    position: absolute;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+    
+}
+.main-content{
+    display:none;
+}

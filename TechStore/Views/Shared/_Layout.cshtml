@@ -9,9 +9,19 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+<body >
+    
+    <div id="preloader">
+        <div class="fa-3x" id="loader">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
+    </div>
+<div class="main-content"  >
+    <nav  class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler pull-xs-right" data-toggle="collapse" data-target=".navbar-collapse">
@@ -37,7 +47,7 @@
     <section class="single-page- is-loaded">
         <header class="page-title">
             <i class="fa fa-user fa-3x">
-             
+
             </i>
             <h2>Profile</h2>
             <p class="menu-desc">Getting to know me</p>
@@ -51,10 +61,25 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-    
+</div>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+
+
+<script type="text/javascript">
+    var removeLoader = function () {
+        setInterval(function () {
+            $('.main-content').css('display', 'initial');
+            $('#preloader').css('display', 'none');
+
+        }, 2000)
+    };
+    removeLoader();
+    $(document).ready(function () {
+        
+    });
+</script>
 </html>
