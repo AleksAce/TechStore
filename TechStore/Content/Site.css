@@ -34,6 +34,7 @@ textarea {
     
 }
 .main-content{
+   top:0;
    
 }
 body {
@@ -42,6 +43,7 @@ body {
 }
 .scroll-top  {
     text-align: right;
+    
 }
 .scroll-top a {
     background-color:burlywood;
@@ -50,4 +52,29 @@ body {
 
 .copyright{
     text-align:left;
+    padding-left:25px;
 }
+footer{
+   
+    bottom:0;
+    background-color:darkgreen;
+    padding:35px;
+}
+
+.social-media-links{
+    text-align:left;
+}
+.page-title {
+    text-align: left;
+}
+body {
+    padding:0px;
+}
+.page-header {
+    padding:25px;
+    background-color:burlywood;
+}
+.user-info {
+    text-align: right;
+}
+

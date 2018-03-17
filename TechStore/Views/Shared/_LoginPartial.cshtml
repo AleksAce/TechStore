@@ -3,20 +3,35 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/Admin/Index">
+                    <i class="fas fa-user-secret" style="color:purple"></i>
+                    <text>AdminPanel</text>
+                </a>
+            </div>
+
+            <div class="col-md-6">
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                <i class="fas fa-user"></i>
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </div>
+        </div>
+
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+
+    <span>
+        <i class="fas fa-user-plus" style="color:red;"></i>
+        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) |
+    </span>
+
+    <span>
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </span>
+
 }
