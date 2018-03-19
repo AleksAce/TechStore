@@ -3,8 +3,7 @@
 storeApp.controller("productController", function ($scope,$http) {
 
     $scope.message = "Hello";
-    $scope.product = "product1";
-    $scope.products = [];
+    $scope.productsLoading = true;
     $scope.lul = "lul";
 });
 

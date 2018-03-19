@@ -32,13 +32,10 @@ namespace TechStore.Controllers
 
             try
             {
-                List<Product> products = (await _productService.GetAllItemsAsync());
+            List<Product> products = await _productService.GetAllItemsAsync();
             List<Category> categories = await _categoryService.GetAllItemsAsync();
            
-            await _productService.AddToCategory(products[2].ProductID, categories[1].CategoryID);
-            int[] num = { 1, 2, 3 };
-
-           
+           // await _productService.AddToCategory(products[2].ProductID, categories[1].CategoryID);
                 return  Request.CreateResponse(HttpStatusCode.OK, products);
             }
             catch
@@ -50,8 +47,17 @@ namespace TechStore.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Get(int id)
         {
-            Product product = await _productService.GetItemByIDAsync(id);
-            return Request.CreateResponse(HttpStatusCode.OK, product);
+            try
+            {
+
+
+                Product product = await _productService.GetItemByIDAsync(id);
+                return Request.CreateResponse(HttpStatusCode.OK, product);
+            }
+            catch
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch product with ID");
+            }
         }
     }
 }

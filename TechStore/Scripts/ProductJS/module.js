@@ -12,7 +12,12 @@ storeApp.config(function ($routeProvider) {
         templateUrl: "../Templates/ProductTemplates/ProductList.html",
         controller: "productController"
 
-    }).when("/Product2", {
+        }).when("/Products/:id", {
+
+            templateUrl: "../Templates/ProductTemplates/SingleProductDetails.html",
+            controller: "productController"
+
+        }).when("/Product2", {
 
         templateUrl: "../Templates/ProductTemplates/Product2.html",
         controller: "product2Controller"
