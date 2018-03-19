@@ -27,8 +27,8 @@
                     <!--Title -->
                     <div class="main-title col-md-6">
                         <span>
-                        @Html.ActionLink("Ace Tech Store", "Index", "Store")
-                         </span>
+                            @Html.ActionLink("Ace Tech Store", "Index", "Store")
+                        </span>
                         <span>
                             Logo
                         </span>
@@ -50,7 +50,7 @@
 
             <div class="user-info col-md-6">
                 <!--TODO: Make this accessible only to Head Admins/admins-->
-                    @Html.Partial("_LoginPartial")
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
         <div class="container">
@@ -72,27 +72,26 @@
         </div>
     </div>
 
-    <footer>
-        <div class="row">
-            <div class="copyright col-md-6 ">
-                <p>Copyright &copy; @DateTime.Now.Year</p>
-            </div>
-            <div class="scroll-top col-md-6 ">
-                <a href="#" id="scroll-to-top">
-                    <i class="fa fa-angle-up"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
+
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+   @System.Reflection.Assembly.GetCallingAssembly().GetName().Version;
 </body>
-
+<!--TODO: Fix the footer not being on bottom all the time-->
+<footer>
+    <div class="row">
+        <div class="copyright col-md-6 ">
+            <p>Copyright &copy; @DateTime.Now.Year</p>
+        </div>
+        <div class="scroll-top col-md-6 ">
+            <a href="#" id="scroll-to-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </div>
+</footer>
 </html>
-<style>
-    <link href="~/Content/Site.css" rel="stylesheet"/>
-</style>
+
 <script src="~/Scripts/Store/Store.js"></script>

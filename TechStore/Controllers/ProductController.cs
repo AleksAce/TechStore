@@ -29,16 +29,23 @@ namespace TechStore.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
-            
-            
-            List<Product> products = await _productService.GetAllItemsAsync();
+
+            try
+            {
+                List<Product> products = (await _productService.GetAllItemsAsync());
             List<Category> categories = await _categoryService.GetAllItemsAsync();
            
             await _productService.AddToCategory(products[2].ProductID, categories[1].CategoryID);
             int[] num = { 1, 2, 3 };
+
+           
+                return  Request.CreateResponse(HttpStatusCode.OK, products);
+            }
+            catch
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
+            }
             
-            
-            return Request.CreateResponse(HttpStatusCode.OK, products);
         }
         [HttpGet]
         public async Task<HttpResponseMessage> Get(int id)

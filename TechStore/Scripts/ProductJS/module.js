@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="../_references.js" />
+
 
 var storeApp = angular.module("storeApp", ['ngRoute']);
 storeApp.config(function ($routeProvider) {
