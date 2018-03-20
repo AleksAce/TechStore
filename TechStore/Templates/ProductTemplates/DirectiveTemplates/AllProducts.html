@@ -7,6 +7,17 @@
 </div>
 <ul ng-repeat="product in products">
     <li>
-        <product-details productid={{product.ProductID}}></product-details>
+        <h2>
+            <a href="#!Products/{{product.ProductID}}">{{product.Name}}</a>
+        </h2>
+        <div>
+            Description: {{product.Description}}
+        </div>
+        <div>
+            LeftInStock: {{product.LeftInStock}}
+        </div>
+        <div>
+            Category: {{product.CategoryName}}
+        </div>
     </li>
 </ul>

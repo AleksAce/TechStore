@@ -9,18 +9,19 @@ storeApp.config(function ($routeProvider) {
         redirectTo:"/Products"
     }).when("/Products", {
 
-        templateUrl: "../Templates/ProductTemplates/ProductList.html",
+    templateUrl: "../Templates/ProductTemplates/ProductList.html",
+    controller: "productController",
+
+
+    }).when("/Products/:id", {
+
+        templateUrl: "../Templates/ProductTemplates/SingleProductDetails.html",
         controller: "productController"
 
-        }).when("/Products/:id", {
+    }).when("/Product2", {
 
-            templateUrl: "../Templates/ProductTemplates/SingleProductDetails.html",
-            controller: "productController"
-
-        }).when("/Product2", {
-
-        templateUrl: "../Templates/ProductTemplates/Product2.html",
-        controller: "product2Controller"
+    templateUrl: "../Templates/ProductTemplates/Product2.html",
+    controller: "product2Controller"
 
     }).otherwise({
         redirectTo: "/"

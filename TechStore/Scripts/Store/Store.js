@@ -16,10 +16,10 @@
 
     $(document).ready(function () {
         $('#scroll-to-top').click(function () {
-            $("html").animate({scrollTop:0}, "slow");
+            $('html').animate({scrollTop:0}, "slow");
         });
         //Todo: Fix this!
         $('.scroll-to-top').mouseover(function () {
-            $('#scroll-to-top').animate({ marginLeft: '90px' }, 'fast');
+           
         });
     });

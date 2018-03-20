@@ -32,6 +32,10 @@ namespace DataAccess.Abstract
             List<Product> products = await dbSet.Include(p => p.Category).ToListAsync();
             return products;
         }
-        
+        public async override Task<Product> GetByIDAsync(int id)
+        {
+            return await dbSet.Include(p=>p.Category).SingleOrDefaultAsync(p=>p.ProductID == id);
+        }
+
     }
 }
