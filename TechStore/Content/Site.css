@@ -56,7 +56,8 @@ body {
 }
 
 .main-content {
-    /*min-height:1000px;*/
+    /*a hack for the footer*/
+    min-height:1000px;
     top: 0;
 }
 .scroll-top{

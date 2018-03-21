@@ -19,6 +19,7 @@
     };
     return factory;
 });
+
 storeApp.directive("productDetails", function (productFactory, $routeParams) {
     return {
         restrict: "E",

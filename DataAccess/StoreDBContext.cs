@@ -17,7 +17,7 @@ namespace DataAccess
         public StoreDBContext() : base("StoreDBContext")
         {///
             this.Configuration.LazyLoadingEnabled = false;
-            Database.SetInitializer(new StoreDBInitializer());
+            //Database.SetInitializer(new StoreDBInitializer());
            // Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
             
         }

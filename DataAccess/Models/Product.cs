@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Models
 {
+   [Serializable]
    public class Product
     {
         //Basic Info
