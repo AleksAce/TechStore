@@ -1,5 +1,4 @@
 ﻿using DataAccess.Abstract;
-using DataAccess.Services;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -34,30 +33,44 @@ namespace TechStore.Controllers
 
             try
             {
-                Product ProductToUse1 = _productRepository.GetProductByName("Product3");
-                Product ProductToUse2 = _productRepository.GetProductByName("Product4");
-                List<Product> productsList = new List<Product>();
-                productsList.Add(ProductToUse1);
-                
-                await _orderRepository.CreateOrder(productsList);
-                await _orderRepository.SaveAll();
-                
-                //Finally this works ONE CONTEXT FOR THE WIN
-                await _orderRepository.AddProductToOrder(ProductToUse2.ProductID, 2);
-                await _orderRepository.SaveAll();
-                await _orderRepository.RemoveProductFromOrder(ProductToUse2.ProductID, 2);
-                await _orderRepository.RemoveProductFromOrder(ProductToUse1.ProductID, 2);
-                await _orderRepository.SaveAll();
+                Product ProductToUse1 = await _productRepository.GetProductByName("Product3");
+                Product ProductToUse2 = await _productRepository.GetProductByName("Product4");
 
-            //BUG: Categories keep increasing
-            List<Category> categories = await _categoryRepository.GetAllAsync();
+                Category CategoryToAdd = new Category()
+                {
+                    Name = "TestCategory",
+                    Products = new List<Product>()
+                };
+                _categoryRepository.Add(CategoryToAdd);
+                await _categoryRepository.SaveAll();
+
+                Category CategoryToUse =await _categoryRepository.GetByNameAsync("TestCategory");
+                CategoryToUse.Name = ("ChangedTestCategory");
+                _categoryRepository.Edit(CategoryToUse);
+                await _categoryRepository.SaveAll();
+
+                var prod = await _productRepository.GetByIDAsync(4);
+                await _productRepository.AddProductToCategoryAsync(prod.ProductID, 3);
+                await _productRepository.SaveAll();
+
+                var cat = await _categoryRepository.GetByIDAsync(3);
+                 _categoryRepository.Delete(cat);
+                await _categoryRepository.SaveAll();
+
+
+
+
+
+
+
+                List<Category> categories = await _categoryRepository.GetAllAsync();
             List<Order> orders = await _orderRepository.GetAllAsync();
             List<Product> products = await _productRepository.GetAllAsync();
 
 
+                
 
-
-            List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
+                List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
             foreach (var p in products)
             {
                     ProductsViewModel pvm = new ProductsViewModel(p);
@@ -69,7 +82,7 @@ namespace TechStore.Controllers
             }
             catch(Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
+               return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
             }
             
         }

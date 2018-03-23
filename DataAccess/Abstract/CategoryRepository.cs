@@ -25,11 +25,19 @@ namespace DataAccess.Abstract
         {
             return await dbSet.Include(x => x.Products).SingleOrDefaultAsync(c=>c.CategoryID == id);
         }
-      
+
+        public async Task<Category> GetByNameAsync(string name)
+        {
+            return await dbSet.Include(c=>c.Products).SingleOrDefaultAsync(c => c.Name == name);
+        }
+
+       
         
     }
     //Specific to categories
     public interface ICategoryRepository
     {
+        Task<Category> GetByNameAsync(string name);
+
     }
 }

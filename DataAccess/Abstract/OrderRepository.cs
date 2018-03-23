@@ -13,7 +13,7 @@ namespace DataAccess.Abstract
         {
 
         }
-
+        
         public async Task AddProductToOrder(int ProductID, int OrderID)
         {
             Order order = await GetByIDAsync(OrderID);
@@ -21,19 +21,20 @@ namespace DataAccess.Abstract
             order.ProductsOrdered.Add(product);
 
         }
-
+        //Creates an order with the products given
         public async Task CreateOrder(List<Product> ProductsForOrder)
         {
 
             Order order = new Order();
             order.OrderDate = DateTime.Now;
-
+            order.ProductsOrdered = new List<Product>();
             foreach (var prod in ProductsForOrder)
             {
                 var ProductToOrder = await context.Products.FindAsync(prod.ProductID);
                 order.ProductsOrdered.Add(ProductToOrder);
             }
-            context.Orders.Add(order);
+            Add(order);
+           // context.Orders.Add(order);
 
         }
 
@@ -50,9 +51,15 @@ namespace DataAccess.Abstract
 
         public async Task RemoveProductFromOrder(int ProductID, int OrderID)
         {
-            Order order = await GetByIDAsync(OrderID);
-            Product product = await context.Products.FindAsync(ProductID);
-            order.ProductsOrdered.Remove(product);
+            try
+            {
+                Order order = await GetByIDAsync(OrderID);
+                Product product = await context.Products.FindAsync(ProductID);
+                order.ProductsOrdered.Remove(product);
+            }catch(Exception ex)
+            {
+                return;
+            }
 
         }
     }

@@ -1,4 +1,4 @@
-﻿using DataAccess.Services;
+﻿
 using Models;
 using System;
 using System.Collections.Generic;
@@ -43,10 +43,12 @@ namespace DataAccess
             };
 
             Product product1;
+            
             for(int i = 0; i < 100; i++)
             {
                 product1 = new Product { Name = "Product" + i.ToString(), Category = new Category() };
                 product1.Category = i % 2==0? category1 : category2;
+                product1.Orders = new List<Order>();
                 product1.Orders.Add( order1);
                 context.Products.Add(product1);
                 

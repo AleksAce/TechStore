@@ -31,11 +31,7 @@ namespace DataAccess.Abstract
         {
             dbSet.Remove(entity);
         }
-        public virtual async Task DeleteByIDAsync(int id)
-        {
-            T entity = await dbSet.FindAsync(id);
-            dbSet.Remove(entity);
-        }
+        
         public virtual void Edit(T entity)
         {
             dbSet.Attach(entity);  

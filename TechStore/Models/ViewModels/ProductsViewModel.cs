@@ -13,7 +13,8 @@ namespace TechStore.Models.ViewModels
             Name = product.Name;
             LeftInStock = product.LeftInStock;
             Description = product.Description;
-            CategoryName = product.Category.Name;
+            //Note: if no category defined use Not Defined
+            CategoryName = product.Category != null ? product.Category.Name : "Not Defined";
             ProductID = product.ProductID;
         }
         public int ProductID { get; set; }

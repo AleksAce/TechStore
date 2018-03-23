@@ -23,7 +23,7 @@ namespace Models
         public DateTime? AvailableInStockTime { get; set; }
         //Category Info
         
-        public int CategoryID { get; set; }
+      
         public virtual Category Category { get; set; }
 
         //Order Info
@@ -33,8 +33,7 @@ namespace Models
         {
             DateAdded = DateTime.Now;
             DateUpdated = DateTime.Now;
-            Orders = new List<Order>();
-            Category = new Category();
+     
 
         }
 

@@ -56,15 +56,14 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CategoryService.cs" />
-    <Compile Include="Services\IStoreService.cs" />
-    <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Services\ProductService.cs" />
     <Compile Include="StoreDBContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
