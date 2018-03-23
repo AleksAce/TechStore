@@ -14,26 +14,49 @@ namespace TechStore.Controllers
 {
     public class ProductController : ApiController
     {
-      
-        IProductService _productService;
-        ICategoryService _categoryService;
-        
-        public ProductController(IProductService prodService,
-                                ICategoryService categoryService
-                                )
+
+
+        ProductRepository _productRepository;
+        OrderRepository _orderRepository;
+        CategoryRepository _categoryRepository;
+        public ProductController()
         {
-            _productService = prodService;
-            _categoryService = categoryService;
- 
+            _productRepository = new ProductRepository();
+            _orderRepository = new OrderRepository();
+            _categoryRepository = new CategoryRepository();
+
         }
- 
+
+        //TODO: SEE HOW TO USE THE SAME CONTEXT IN THE SERVICE SO YOU CAN USE IT TO ADD AND DELETE ITEMS FROM IT
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
 
             try
             {
-            List<Product> products = await _productService.GetAllItemsAsync();
+                Product ProductToUse1 = _productRepository.GetProductByName("Product3");
+                Product ProductToUse2 = _productRepository.GetProductByName("Product4");
+                List<Product> productsList = new List<Product>();
+                productsList.Add(ProductToUse1);
+                
+                await _orderRepository.CreateOrder(productsList);
+                await _orderRepository.SaveAll();
+                
+                //Finally this works ONE CONTEXT FOR THE WIN
+                await _orderRepository.AddProductToOrder(ProductToUse2.ProductID, 2);
+                await _orderRepository.SaveAll();
+                await _orderRepository.RemoveProductFromOrder(ProductToUse2.ProductID, 2);
+                await _orderRepository.RemoveProductFromOrder(ProductToUse1.ProductID, 2);
+                await _orderRepository.SaveAll();
+
+            //BUG: Categories keep increasing
+            List<Category> categories = await _categoryRepository.GetAllAsync();
+            List<Order> orders = await _orderRepository.GetAllAsync();
+            List<Product> products = await _productRepository.GetAllAsync();
+
+
+
+
             List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
             foreach (var p in products)
             {
@@ -41,13 +64,10 @@ namespace TechStore.Controllers
                     productsViewModelList.Add(pvm);
             }
                 
-           
-           // List<Category> categories = await _categoryService.GetAllItemsAsync();
-           
-           // await _productService.AddToCategory(products[2].ProductID, categories[1].CategoryID);
+       
                 return  Request.CreateResponse(HttpStatusCode.OK, productsViewModelList);
             }
-            catch
+            catch(Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
             }
@@ -58,7 +78,7 @@ namespace TechStore.Controllers
         {
             try
             {
-                Product product = await _productService.GetItemByIDAsync(id);
+                Product product = await _productRepository.GetByIDAsync(id);
                 
                 return Request.CreateResponse(HttpStatusCode.OK, new ProductsViewModel(product));
             }

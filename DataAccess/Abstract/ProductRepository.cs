@@ -29,8 +29,9 @@ namespace DataAccess.Abstract
         }
         public override async Task<List<Product>> GetAllAsync()
         {
-            List<Product> products = await dbSet.Include(p => p.Category).ToListAsync();
+            List<Product> products = await dbSet.Include(p => p.Category).Include(p=>p.Orders).ToListAsync();
             return products;
+            
         }
         public async override Task<Product> GetByIDAsync(int id)
         {

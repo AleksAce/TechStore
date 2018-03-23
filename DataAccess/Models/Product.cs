@@ -33,7 +33,8 @@ namespace Models
         {
             DateAdded = DateTime.Now;
             DateUpdated = DateTime.Now;
-          
+            Orders = new List<Order>();
+            Category = new Category();
 
         }
 

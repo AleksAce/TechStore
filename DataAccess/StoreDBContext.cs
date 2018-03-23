@@ -16,9 +16,9 @@ namespace DataAccess
 
         public StoreDBContext() : base("StoreDBContext")
         {///
-            this.Configuration.LazyLoadingEnabled = false;
-            //Database.SetInitializer(new StoreDBInitializer());
-           // Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
+            //this.Configuration.LazyLoadingEnabled = false;
+            Database.SetInitializer(new StoreDBInitializer());
+           //Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
             
         }
 
@@ -37,15 +37,24 @@ namespace DataAccess
 
             Category category1 = new Category { Name = "Category1", Products = new List<Product>() };
             Category category2 = new Category { Name = "Category2", Products = new List<Product>() };
+            Order order1 = new Order()
+            {
+                OrderDate = DateTime.Now
+            };
 
             Product product1;
             for(int i = 0; i < 100; i++)
             {
                 product1 = new Product { Name = "Product" + i.ToString(), Category = new Category() };
                 product1.Category = i % 2==0? category1 : category2;
+                product1.Orders.Add( order1);
                 context.Products.Add(product1);
+                
             }
-  
+
+           
+          
+
             context.SaveChanges();
             base.Seed(context);
         }
