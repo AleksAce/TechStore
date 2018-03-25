@@ -12,10 +12,10 @@ namespace TechStore.Controllers.Admin
 {
     public class CategoryController : Controller
     {
-        CategoryRepository _categoryRepository;
-        public CategoryController()
+        ICategoryRepository _categoryRepository;
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = new CategoryRepository();
+            _categoryRepository = categoryRepository;
         }
         // GET: Category
         public async Task<ActionResult> Index()
@@ -23,7 +23,7 @@ namespace TechStore.Controllers.Admin
             try
             {
                 List<CreateCategoryViewModel> createCategoryViewModels = new List<CreateCategoryViewModel>();
-                List<Category> categories = await _categoryRepository.GetAllAsync();
+                List<Category> categories = await _categoryRepository.GetAll ();
                 foreach (var cat in categories)
                 {
                     CreateCategoryViewModel cvm = new CreateCategoryViewModel(cat);

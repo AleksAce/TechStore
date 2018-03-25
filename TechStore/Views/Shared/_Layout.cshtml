@@ -9,6 +9,8 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    @Scripts.Render("~/bundles/jquery")
     <link href="~/Content/Site.css" rel="stylesheet" />
 
 </head>
@@ -73,8 +75,7 @@
     </div>
 
 
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    @Scripts.Render("~/bundles/jquery")
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @System.Reflection.Assembly.GetCallingAssembly().GetName().Version;

@@ -38,9 +38,9 @@ namespace DataAccess.Abstract
 
         }
 
-        public override async Task<List<Order>> GetAllAsync()
+        public override async Task<List<Order>> GetAll()
         {
-            List<Order> orders = await dbSet.Include(o => o.ProductsOrdered).ToListAsync();
+            List<Order> orders =  dbSet.Include(o => o.ProductsOrdered).ToList();
             return orders;
 
         }
@@ -63,7 +63,7 @@ namespace DataAccess.Abstract
 
         }
     }
-    public interface IOrderRepository
+    public interface IOrderRepository : IStoreRepository<Order>
     {
         Task CreateOrder(List<Product> ProductsForOrder);
         Task AddProductToOrder(int ProductID, int OrderID);

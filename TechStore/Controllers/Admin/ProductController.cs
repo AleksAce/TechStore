@@ -12,40 +12,58 @@ namespace TechStore.Controllers.Admin
 {
     public class ProductController : Controller
     {
-        ProductRepository _productRepository;
-        CategoryRepository _categoryRepository;
-        public ProductController()
+        IProductRepository _productRepository;
+        ICategoryRepository _categoryRepository;
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
-            _productRepository = new ProductRepository();
-            _categoryRepository = new CategoryRepository();
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+        }
+        public async Task<ActionResult> GetOrders(int id)
+        {
+            Product prod = await _productRepository.GetByIDAsync(id);
+            List<ProductOrderViewModel> povm = new List<ProductOrderViewModel>();
+            foreach(var o in prod.Orders)
+            {
+                ProductOrderViewModel ovm = new ProductOrderViewModel(o);
+                povm.Add(ovm);
+            }
+            return Json(povm, JsonRequestBehavior.AllowGet);
         }
         // GET: Product
         public async Task<ActionResult> Index()
         {
-            List<Product> products = await _productRepository.GetAllAsync();
+            List<Product> products = await _productRepository.GetAll();
             List<CreateProductViewModel> createProductViewModels = new List<CreateProductViewModel>();
             foreach(var p in products)
             {
-                CreateProductViewModel createProductViewModel = new CreateProductViewModel(p);
+                CreateProductViewModel createProductViewModel = new CreateProductViewModel(p, _categoryRepository);
                 createProductViewModels.Add(createProductViewModel);
             }
 
-            return View(createProductViewModels);
+            return View("Index",createProductViewModels);
         }
 
         // GET: Product/Details/5
         public async Task<ActionResult> Details(int id)
         {
             Product product = await _productRepository.GetByIDAsync(id);
-            CreateProductViewModel createProductViewModel = new CreateProductViewModel(product);
-
-            return View(createProductViewModel);
+            if (product != null)
+            {
+                CreateProductViewModel createProductViewModel = new CreateProductViewModel(product, _categoryRepository);
+                return View(createProductViewModel);
+            }
+            else
+            {
+                ViewBag.Message = "Product Not Found";
+                return View("Error");
+            }
         }
 
         // GET: Product/Create
         public ActionResult Create()
         {
-            return View(new CreateProductViewModel());
+            return View("Create",new CreateProductViewModel(_categoryRepository));
         }
 
         // POST: Product/Create
@@ -56,40 +74,32 @@ namespace TechStore.Controllers.Admin
             {
                 try
                 {
-                    
-                    Category category = await _categoryRepository.GetByNameAsync(model.CategoryName);
-                    if(category== null)
-                    {
-                        category = new Category()
-                        {
-                            Name = "No Category"
-                        };
-                    }
-                   
+                
                     Product product = new Product()
                     {
                         DateAdded = DateTime.Now,
                         Name = model.Name,
                         PhotoURL = model.PhotoURL,
                         Price = model.Price,
-                        Category = category,
                         Description = model.Description,
                         IsInStock = true,
                         LeftInStock = model.LeftInStock,
                         Manufacturer = model.Manufacturer,
                     };
                     _productRepository.Add(product);
-                    await _productRepository.SaveAll();                
+                    await _productRepository.SaveAll();
+                    await _productRepository.AddProductToCategoryAsync(product.Name, model.CategoryName);
+                    await _productRepository.SaveAll();
                     return RedirectToAction("Index");
                 }
-                catch
+                catch(Exception ex)
                 {
-                    return View(model);
+                    return View("Create",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Create",model);
             }
         }
 
@@ -97,7 +107,7 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Edit(int id)
         {
             Product product = await _productRepository.GetByIDAsync(id);
-            CreateProductViewModel createProductViewModel = new CreateProductViewModel(product);
+            CreateProductViewModel createProductViewModel = new CreateProductViewModel(product, _categoryRepository);
             return View(createProductViewModel);
         }
 
@@ -110,13 +120,6 @@ namespace TechStore.Controllers.Admin
                 try
                 {
                     Category category = await _categoryRepository.GetByNameAsync(model.CategoryName);
-                    if (category == null)
-                    {
-                        category = new Category()
-                        {
-                            Name = "No Category"
-                        };
-                    }
 
                     Product product =  await _productRepository.GetByIDAsync(model.ProductID);
                     product.DateUpdated = DateTime.Now;
@@ -147,7 +150,7 @@ namespace TechStore.Controllers.Admin
         {
            
             Product product = await _productRepository.GetByIDAsync(id);
-            CreateProductViewModel createProductViewModel = new CreateProductViewModel(product);
+            CreateProductViewModel createProductViewModel = new CreateProductViewModel(product, _categoryRepository);
           
             return View(createProductViewModel);
         }

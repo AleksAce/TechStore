@@ -36,9 +36,9 @@ namespace DataAccess.Abstract
         {
             dbSet.Attach(entity);  
         }
-        public virtual async Task<List<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAll()
         {
-            return await dbSet.ToListAsync();
+            return  dbSet.ToList();
         }
 
         public virtual async Task<T> GetByIDAsync(int id)

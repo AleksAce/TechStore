@@ -20,10 +20,12 @@ namespace Models
         //Stock info
         public bool IsInStock { get; set; }
         public int LeftInStock { get; set; }
-        public DateTime? AvailableInStockTime { get; set; }
+
+        public DateTime? AvailableUntill { get; set; }
+        public int  AvailableInStockTime { get; set; }
         //Category Info
-        
-      
+
+
         public virtual Category Category { get; set; }
 
         //Order Info

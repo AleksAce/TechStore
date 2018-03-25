@@ -13,22 +13,20 @@ namespace TechStore.Controllers
 {
     public class ProductController : ApiController
     {
-        ProductRepository _productRepository;
+        IProductRepository _productRepository;
 
-        public ProductController()
+        public ProductController(IProductRepository productRepository)
         {
-            _productRepository = new ProductRepository();
+            _productRepository = productRepository;
 
-        }
-        //TODO: SEE HOW TO USE THE SAME CONTEXT IN THE SERVICE SO YOU CAN USE IT TO ADD AND DELETE ITEMS FROM IT
+        } 
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
-
             try
             {
             
-            List<Product> products = await _productRepository.GetAllAsync();
+            List<Product> products = await _productRepository.GetAll();
 
             List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
             foreach (var p in products)

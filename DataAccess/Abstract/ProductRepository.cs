@@ -9,28 +9,28 @@ using System.Threading.Tasks;
 namespace DataAccess.Abstract
 {
     //Specific to Products
-    public interface IProductRepository
+    public interface IProductRepository : IStoreRepository<Product> 
     {
-        Task<Product> GetProductByName(string name);
+        Task<Product> GetProductByNameAsync(string name);
         Task AddProductToCategoryAsync(int productID, int categoryID);
         Task RemoveProductFromCategoryAsync(int productID, int categoryID);
-
+        Task AddProductToCategoryAsync(string productName, string categoryName);
     }
-    //Important: USE THIS in your service
+    //StoreBase Repository Implements the IStoreRepository Interface, so no worries
     public class ProductRepository : StoreBaseRepository<Product>  , IProductRepository
     {
         public ProductRepository() : base()
         {
             
         }
-
-        public async Task<Product> GetProductByName(string name)
+        
+        public async Task<Product> GetProductByNameAsync(string name)
         {
                 return await dbSet.Include(p => p.Orders).Include(p => p.Category).SingleOrDefaultAsync(p => p.Name == name);
         }
-        public override async Task<List<Product>> GetAllAsync()
+        public override async Task<List<Product>> GetAll()
         {
-            List<Product> products = await dbSet.Include(p => p.Category).Include(p=>p.Orders).ToListAsync();
+            List<Product> products = dbSet.Include(p => p.Category).Include(p=>p.Orders).ToList();
             return products;
             
         }
@@ -68,6 +68,22 @@ namespace DataAccess.Abstract
             }catch(Exception ex)
             {
                 //Could not find product or category
+                return;
+            }
+        }
+
+        public async Task AddProductToCategoryAsync(string productName, string categoryName)
+        {
+            try
+            {
+                Product prod = await GetProductByNameAsync(productName);
+                Category cat = await context.Categories.SingleOrDefaultAsync(c=>c.Name == categoryName);
+                prod.Category = cat;
+                //cat.Products.Add(prod);
+            }
+            catch (Exception ex)
+            {
+                //Could not Find Product or Category
                 return;
             }
         }

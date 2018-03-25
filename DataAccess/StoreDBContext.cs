@@ -16,9 +16,9 @@ namespace DataAccess
 
         public StoreDBContext() : base("StoreDBContext")
         {///
-            //this.Configuration.LazyLoadingEnabled = false;
-           // Database.SetInitializer(new StoreDBInitializer());
-           Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
+            this.Configuration.LazyLoadingEnabled = false;
+            Database.SetInitializer(new StoreDBInitializer());
+          // Database.SetInitializer(new DropCreateDatabaseAlways<StoreDBContext>());
             
         }
 
@@ -44,7 +44,7 @@ namespace DataAccess
 
             Product product1;
             
-            for(int i = 0; i < 100; i++)
+            for(int i = 0; i < 2; i++)
             {
                 product1 = new Product { Name = "Product" + i.ToString(), Category = new Category() };
                 product1.Category = i % 2==0? category1 : category2;
