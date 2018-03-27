@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Models
         //ProductInfo
         public virtual List<Product> ProductsOrdered { get; set; }
 
+        public virtual Customer customer { get; set; }
         //CUSTOMER TODO:
 
             //Added master comment

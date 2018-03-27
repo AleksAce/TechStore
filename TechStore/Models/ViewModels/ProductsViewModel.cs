@@ -18,7 +18,7 @@ namespace TechStore.Models.ViewModels
             LeftInStock = product.LeftInStock;
             Description = product.Description;
             //Note: if no category defined use Not Defined
-            CategoryName = product.Category != null ? product.Category.Name : "Not Defined";
+            categories = product.Categories;
             ProductID = product.ProductID;
             AvailableInStockTime = product.AvailableInStockTime;
             Price = product.Price;
@@ -35,7 +35,7 @@ namespace TechStore.Models.ViewModels
         public int AvailableInStockTime { get; set; }
 
         //Categories
-        public string CategoryName { get; set; }
+        public List<Category> categories { get; set; }
 
 
 

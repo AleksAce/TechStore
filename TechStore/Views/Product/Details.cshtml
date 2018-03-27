@@ -98,13 +98,6 @@
             @Html.DisplayFor(model => model.AvailableInStockTime)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
 
         <dd>
             <button id="see-orders" class="btn btn-primary">See orders</button>
@@ -128,8 +121,9 @@
     $(document).ready(function () {
         var productID = @Model.ProductID;
         var ajaxUrl = "/Product/GetOrders/" + productID;
-       
+        var orderList = $('#orders');
         $('#see-orders').click(function () {
+            orderList.empty();
             $.ajax({
                 type: "get",
                 url: ajaxUrl,
@@ -140,25 +134,23 @@
             });
         });
         function ajaxSuccess(data, status) {
-            
+
             showOrders(data);
         };
+        function getHtmlToAppend(counter, orderID, orderdate, customerUserName) {
+            //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
+            return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
+                + orderID + "' href='/Order/Details/" +
+                orderID + "'>" + customerUserName + ": " + orderdate + "<a><div>";
+        }
         function showOrders(data) {
-            var orderList = $('#orders');
+
             for (var i = 0; i < data.length; i++) {
 
                 let orderDateValue = data[i].OrderDate;
                 let num = i + 1;
-                //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
-                var htmlToAppend = num + ". " + "<a class='appended-buttons btn btn-primary id='"
-                    + data[i].OrderID + "' href='/Order/Details/" +
-                    data[i].OrderID + "'>" + data[i].OrderDate + "<a>";
-
-
-
+                var htmlToAppend = getHtmlToAppend(num, data[i].OrderID, data[i].OrderDate, data[i].CustomerUserName);
                 orderList.append(htmlToAppend);
-              
-              //  data[i].OrderDate
             }
         }
     });

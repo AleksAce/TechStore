@@ -29,11 +29,17 @@ namespace TechStore
         private void RegisterServices(IKernel kernel)
         {
             //Bind everything Here
-            
-            kernel.Bind<ICategoryRepository>().To<CategoryRepository>().InSingletonScope();
-            kernel.Bind<IProductRepository>().To<ProductRepository>().InSingletonScope();
-            kernel.Bind<IOrderRepository>().To<OrderRepository>().InSingletonScope();
-           
+
+            kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
+            kernel.Bind<IProductRepository>().To<ProductRepository>();
+            kernel.Bind<IOrderRepository>().To<OrderRepository>();
+            kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
+
+           // kernel.Bind<ICategoryRepository>().To<CategoryRepository>().InSingletonScope();
+           // kernel.Bind<IProductRepository>().To<ProductRepository>().InSingletonScope();
+           // kernel.Bind<IOrderRepository>().To<OrderRepository>().InSingletonScope();
+           // kernel.Bind<ICustomerRepository>().To<CustomerRepository>().InSingletonScope();
+
 
 
 

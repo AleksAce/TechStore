@@ -9,7 +9,7 @@
 <div>
     <h4>CreateCategoryViewModel</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal ">
         <dt>
             @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
@@ -25,10 +25,14 @@
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dd>
-            @Html.ActionLink("See Products", "CategoryProductsList", new { id= Model.CategoryID})
-        </dd>
     </dl>
+        <div id="products-for-category">
+            @foreach(var prod in Model.products)
+            {
+                @Html.ActionLink(prod.Name, "Details", "Product", new { id = prod.ProductID }, new { @class="btn btn-info"});
+            }
+        </div>
+   
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id= Model.CategoryID }) |

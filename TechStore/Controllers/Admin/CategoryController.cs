@@ -13,9 +13,41 @@ namespace TechStore.Controllers.Admin
     public class CategoryController : Controller
     {
         ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        IProductRepository _productRepository;
+
+        public CategoryController(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
+        }
+        [HttpGet]
+        public async Task<ActionResult> ProductsPerCategory(int categoryID)
+        {
+            Category category = await _categoryRepository.GetByIDAsync(categoryID);
+            List<CategoryProductViewModel> cpvm = new List<CategoryProductViewModel>();
+            foreach (var p in category.Products)
+            {
+                CategoryProductViewModel pvm = new CategoryProductViewModel(p);
+                cpvm.Add(pvm);
+            }
+            return Json(cpvm, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public async Task<ActionResult> ProductsNotInCategory(int categoryID)
+        {
+            Category category = await _categoryRepository.GetByIDAsync(categoryID);
+            List<Product> productsInCategory = category.Products;
+            List<Product> allProducts = await _productRepository.GetAll();
+            
+            List<Product> productsNotInCategory = allProducts.Where(p=> p.Categories == null || (p.Categories.ToList().Find(c=>c.CategoryID == categoryID)) == null).ToList();
+            
+            List<CategoryProductViewModel> cpvm = new List<CategoryProductViewModel>();
+            foreach (var p in productsNotInCategory)
+            {
+                CategoryProductViewModel pvm = new CategoryProductViewModel(p);
+                cpvm.Add(pvm);
+            }
+            return Json(cpvm, JsonRequestBehavior.AllowGet);
         }
         // GET: Category
         public async Task<ActionResult> Index()

@@ -17,9 +17,11 @@ namespace TechStore.Models.ViewModels
 
             Name = category.Name;
             CategoryID = category.CategoryID;
+            products = category.Products;
 
         }
         public int CategoryID { get; set; }
         public string Name { get; set; }
+        public List<Product> products { get; set; }
     }
 }

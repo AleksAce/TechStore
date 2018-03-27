@@ -13,12 +13,16 @@ namespace TechStore.Controllers.Admin
     public class OrderController : Controller
     {
         private IOrderRepository _orderRepository;
+        private ICustomerRepository _customerRepository;
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(IOrderRepository orderRepository, ICustomerRepository customerRepository)
         {
             _orderRepository = orderRepository;
+            _customerRepository = customerRepository;
         }
+        
         // GET: Order
+
         public async Task<ActionResult> Index()
         {
             List<OrderViewModel> lovm = new List<OrderViewModel>();
@@ -62,9 +66,11 @@ namespace TechStore.Controllers.Admin
         }
 
         // GET: Order/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            Order order = await _orderRepository.GetByIDAsync(id);
+            OrderViewModel ovm = new OrderViewModel(order);
+            return View(ovm);
         }
 
         // POST: Order/Edit/5
@@ -84,19 +90,23 @@ namespace TechStore.Controllers.Admin
         }
 
         // GET: Order/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult>Delete(int id)
         {
-            return View();
+            Order order = await _orderRepository.GetByIDAsync(id);
+            OrderViewModel ovm = new OrderViewModel(order);
+            return View(ovm);
         }
 
         // POST: Order/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public async Task<ActionResult> Delete(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                Order order = await _orderRepository.GetByIDAsync(id);
+                _orderRepository.Delete(order);
+                await _orderRepository.SaveAll();
                 return RedirectToAction("Index");
             }
             catch

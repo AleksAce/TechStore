@@ -13,9 +13,11 @@ namespace TechStore.Models.ViewModels
         {
             OrderID = order.OrderID;
             OrderDate = order.OrderDate.ToLongDateString();
+            CustomerUserName = order.customer.UserName;
         }
         public int OrderID { get; set; }
         public string OrderDate { get; set; }
+        public string CustomerUserName { get; set; }
         //Users
     }
 }

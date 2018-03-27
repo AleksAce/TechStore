@@ -26,7 +26,7 @@ namespace Models
         //Category Info
 
 
-        public virtual Category Category { get; set; }
+        public virtual List<Category> Categories { get; set; }
 
         //Order Info
         public virtual List<Order> Orders { get; set; }

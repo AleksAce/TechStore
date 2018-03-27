@@ -48,11 +48,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\CategoryRepository.cs" />
+    <Compile Include="Abstract\CustomerRepository.cs" />
     <Compile Include="Abstract\IStoreRepository.cs" />
     <Compile Include="Abstract\OrderRepository.cs" />
     <Compile Include="Abstract\ProductRepository.cs" />
     <Compile Include="Abstract\StoreBaseRepository.cs" />
+    <Compile Include="Migrations\201803261737001_InitialCreate.cs" />
+    <Compile Include="Migrations\201803261737001_InitialCreate.Designer.cs">
+      <DependentUpon>201803261737001_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803261738308_Initial.cs" />
+    <Compile Include="Migrations\201803261738308_Initial.Designer.cs">
+      <DependentUpon>201803261738308_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803270124147_Added-MultipleCategories-ToProduct.cs" />
+    <Compile Include="Migrations\201803270124147_Added-MultipleCategories-ToProduct.Designer.cs">
+      <DependentUpon>201803270124147_Added-MultipleCategories-ToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +79,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201803261737001_InitialCreate.resx">
+      <DependentUpon>201803261737001_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803261738308_Initial.resx">
+      <DependentUpon>201803261738308_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803270124147_Added-MultipleCategories-ToProduct.resx">
+      <DependentUpon>201803270124147_Added-MultipleCategories-ToProduct.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

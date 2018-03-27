@@ -13,16 +13,52 @@ namespace DataAccess.Abstract
         {
 
         }
-        
-        public async Task AddProductToOrder(int ProductID, int OrderID)
+
+        public async Task AddCustomerToOrderAsync(int orderID, int customerID)
         {
-            Order order = await GetByIDAsync(OrderID);
-            Product product = await context.Products.FindAsync(ProductID);
-            order.ProductsOrdered.Add(product);
+            try
+            {
+                Order order = await GetByIDAsync(orderID);
+                Customer customer  = await context.Customers.FindAsync(customerID);
+                order.customer = customer;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task RemoveCustomerFromOrderAsync(int orderID, int customerID)
+        {
+            try
+            {
+                Order order = await GetByIDAsync(orderID);
+                Customer customer = await context.Customers.FindAsync(customerID);
+                customer.OrdersIssued.Remove(order);   
+            }
+            catch
+            {
+                throw;
+            }
 
         }
+
+        public async Task AddProductToOrder(int ProductID, int OrderID)
+        {
+            try
+            {
+                Order order = await GetByIDAsync(OrderID);
+                Product product = await context.Products.FindAsync(ProductID);
+                order.ProductsOrdered.Add(product);
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+       
         //Creates an order with the products given
-        public async Task CreateOrder(List<Product> ProductsForOrder)
+        public async Task CreateOrder(List<Product> ProductsForOrder, string CustomerID)
         {
 
             Order order = new Order();
@@ -33,6 +69,8 @@ namespace DataAccess.Abstract
                 var ProductToOrder = await context.Products.FindAsync(prod.ProductID);
                 order.ProductsOrdered.Add(ProductToOrder);
             }
+            Customer CustomerOrdering = await context.Customers.FindAsync(CustomerID);
+            order.customer = CustomerOrdering;
             Add(order);
            // context.Orders.Add(order);
 
@@ -49,6 +87,7 @@ namespace DataAccess.Abstract
             return await dbSet.Include(o => o.ProductsOrdered).SingleOrDefaultAsync(o => o.OrderID == id);
         }
 
+        
         public async Task RemoveProductFromOrder(int ProductID, int OrderID)
         {
             try
@@ -56,18 +95,20 @@ namespace DataAccess.Abstract
                 Order order = await GetByIDAsync(OrderID);
                 Product product = await context.Products.FindAsync(ProductID);
                 order.ProductsOrdered.Remove(product);
-            }catch(Exception ex)
+            }catch
             {
-                return;
+                throw;
             }
 
         }
     }
     public interface IOrderRepository : IStoreRepository<Order>
     {
-        Task CreateOrder(List<Product> ProductsForOrder);
+        Task CreateOrder(List<Product> ProductsForOrder, string CustomerID);
         Task AddProductToOrder(int ProductID, int OrderID);
         Task RemoveProductFromOrder(int ProductID, int OrderID);
+        Task AddCustomerToOrderAsync(int orderID, int customerID);
+        Task RemoveCustomerFromOrderAsync(int orderID, int customerID);
     }
 
 }

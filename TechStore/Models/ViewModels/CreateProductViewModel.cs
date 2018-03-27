@@ -12,29 +12,13 @@ namespace TechStore.Models.ViewModels
     public class CreateProductViewModel
     {
 
-        ICategoryRepository _categoryRepository;
+
         public CreateProductViewModel()
         {
-            _categoryRepository = new CategoryRepository();
-            //THIS DOESNT WORK.. FIX IT
-            Categories = GetSelectListItems(_categoryRepository.GetAllCategoryNames().Result);
-            // Categories = GetSelectListItems(new List<string>() { "No Category Specified" });
         }
 
-        public CreateProductViewModel(ICategoryRepository categoryRepository)
+        public CreateProductViewModel(Product product)
         {
-            _categoryRepository = categoryRepository;
-            //THIS DOESNT WORK.. FIX IT
-            Categories = GetSelectListItems(_categoryRepository.GetAllCategoryNames().Result);
-           // Categories = GetSelectListItems(new List<string>() { "No Category Specified" });
-        }
-        public CreateProductViewModel(Product product, ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-            //THIS DOESNT WORK.. FIX IT
-            Categories = GetSelectListItems(_categoryRepository.GetAllCategoryNames().Result);
-           // Categories = GetSelectListItems(new List<string>() { "No Category Specified" });
-
             ProductID = product.ProductID;
             Name = product.Name;
             Manufacturer = product.Manufacturer;
@@ -46,31 +30,8 @@ namespace TechStore.Models.ViewModels
             AvailableInStockTime = product.AvailableInStockTime;
             DateAdded = product.DateAdded;
             DateUpdated = product.DateUpdated;
-            CategoryName = product.Category != null ? product.Category.Name : "";
-           
+            Categories = product.Categories;
 
-        }
-
-        //Note: Makes a selectlist from categoryNames;
-        public List<SelectListItem> GetSelectListItems(List<string> categories)
-        {
-            List<SelectListItem> items = new List<SelectListItem>();
-            //NOTE: Wasn't able to fetch categories
-            if (categories == null || categories.Count == 0)
-            {
-                items.Add(new SelectListItem() { Text = "ERROR: No Categories Provided", Value = null});
-                return items;
-            }
-            foreach (var cat in categories)
-            {
-                SelectListItem item = new SelectListItem()
-                {
-                    Text = cat,
-                    Value = cat
-                };
-                items.Add(item);
-            }
-            return items;
         }
 
         //Basic Info
@@ -91,11 +52,9 @@ namespace TechStore.Models.ViewModels
 
         public int AvailableInStockTime { get; set; }
         public DateTime? AvailableUntill { get; set; }
-        //Category Info
+      
 
-        public string CategoryName { get; set; }
-        public List<SelectListItem> Categories { get; set; }
-
+        public List<Category> Categories { get; set; }
         public List<Order> orders = new List<Order>();
     }
 }

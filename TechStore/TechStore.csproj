@@ -238,6 +238,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
+    <Compile Include="Controllers\Admin\CustomerController.cs" />
     <Compile Include="Controllers\Admin\OrderController.cs" />
     <Compile Include="Controllers\Admin\ProductController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -257,8 +258,10 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CategoryProductViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateProductViewModel.cs" />
+    <Compile Include="Models\ViewModels\CustomerViewModel.cs" />
     <Compile Include="Models\ViewModels\OrderViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductOrderViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductsViewModel.cs" />
@@ -1195,6 +1198,9 @@
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\Delete.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

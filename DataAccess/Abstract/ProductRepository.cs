@@ -24,19 +24,20 @@ namespace DataAccess.Abstract
             
         }
         
+        
         public async Task<Product> GetProductByNameAsync(string name)
         {
-                return await dbSet.Include(p => p.Orders).Include(p => p.Category).SingleOrDefaultAsync(p => p.Name == name);
+                return await dbSet.Include(p => p.Orders).Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
         }
         public override async Task<List<Product>> GetAll()
         {
-            List<Product> products = dbSet.Include(p => p.Category).Include(p=>p.Orders).ToList();
+            List<Product> products = dbSet.Include(p => p.Categories).Include(p=>p.Orders).ToList();
             return products;
             
         }
         public async override Task<Product> GetByIDAsync(int id)
         {
-                return await dbSet.Include(p => p.Category).Include(p => p.Orders).SingleOrDefaultAsync(p => p.ProductID == id);
+                return await dbSet.Include(p => p.Categories).Include(p => p.Orders).SingleOrDefaultAsync(p => p.ProductID == id);
         }
 
         public async Task AddProductToCategoryAsync(int productID, int categoryID)
@@ -45,7 +46,7 @@ namespace DataAccess.Abstract
             {
                 Product prod = await GetByIDAsync(productID);
                 Category cat = await context.Categories.FindAsync(categoryID);
-                prod.Category = cat;
+                prod.Categories.Add(cat);
                 //cat.Products.Add(prod);
             }catch(Exception ex)
             {
@@ -60,10 +61,7 @@ namespace DataAccess.Abstract
             {
                 Product prod = await GetByIDAsync(productID);
                 Category cat = await context.Categories.FindAsync(categoryID);
-                if (prod.Category == cat)
-                {
-                    prod.Category = null;
-                }
+                prod.Categories.Remove(cat);
                 
             }catch(Exception ex)
             {
@@ -78,7 +76,7 @@ namespace DataAccess.Abstract
             {
                 Product prod = await GetProductByNameAsync(productName);
                 Category cat = await context.Categories.SingleOrDefaultAsync(c=>c.Name == categoryName);
-                prod.Category = cat;
+                prod.Categories.Add(cat);
                 //cat.Products.Add(prod);
             }
             catch (Exception ex)
