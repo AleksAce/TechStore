@@ -1,4 +1,4 @@
-﻿@model TechStore.Models.ViewModels.OrderViewModel
+﻿@model TechStore.Models.ViewModels.CreateOrderViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -26,16 +26,64 @@
             @Html.DisplayFor(model => model.OrderDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.customer.UserName)
+            @Html.DisplayNameFor(model => model.CustomerName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.customer.UserName)
+            @Html.DisplayFor(model => model.CustomerName)
         </dd>
 
     </dl>
+</div>
+<div>
+    <button id="see-products" class="btn btn-primary">See products</button>
+</div>
+<div id="products">
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
     @Html.ActionLink("AllOrders", "Index")
 </p>
+<script type="text/javascript">
+    $(document).ready(function () {
+    //Categories
+    var orderID = @Model.OrderID;
+    var productList = $('#products');
+    $('#see-products').click(function () {
+        productList.empty();
+        $.ajax({
+            type: "get",
+            url: "/Order/GetProducts/" + orderID,
+            success: ajaxProductsSuccess,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+        });
+    });
+
+    function ajaxProductsSuccess(data, status) {
+
+        showProducts(data);
+    };
+
+    function getProductHtmlToAppend(counter, ProductID, ProductName) {
+        //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
+        return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
+            + ProductID + "' href='/Product/Details/" +
+            ProductID + "'>" + ProductName + "<a><div>";
+    };
+
+    function showProducts(data) {
+
+        for (var i = 0; i < data.length; i++) {
+            let num = i + 1;
+            var productHtmlToAppend = getProductHtmlToAppend(num, data[i].ProductID, data[i].ProductName);
+            productList.append(productHtmlToAppend);
+        }
+    };
+
+
+});
+
+</script>

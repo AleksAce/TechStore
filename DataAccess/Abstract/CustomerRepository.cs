@@ -10,12 +10,12 @@ namespace DataAccess.Abstract
 {
     public interface ICustomerRepository: IStoreRepository<Customer>
     {
-        Task<Customer> GetProductByNameAsync(string UserName);
+        Task<Customer> GetCustomerByNameAsync(string UserName);
       
     }
     public class CustomerRepository : StoreBaseRepository<Customer>, ICustomerRepository
     {
-        public async Task<Customer> GetProductByNameAsync(string UserName)
+        public async Task<Customer> GetCustomerByNameAsync(string UserName)
         {
             return await dbSet.SingleOrDefaultAsync(c => c.UserName == UserName);
         }

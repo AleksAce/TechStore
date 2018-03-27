@@ -14,13 +14,17 @@ namespace TechStore.Controllers.Admin
     {
         IProductRepository _productRepository;
         ICategoryRepository _categoryRepository;
+        IOrderRepository _orderRepository;
 
-
-        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository,
+            IOrderRepository orderRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _orderRepository = orderRepository;
         }
+        
+        //CATEGORIES
         [HttpGet]
         public async Task<ActionResult> CategoriesPerProduct(int productID)
         {
@@ -78,6 +82,18 @@ namespace TechStore.Controllers.Admin
             {
                 return "Product failed to be added";
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetCategories(int id)
+        {
+            Product prod = await _productRepository.GetByIDAsync(id);
+            List<ProductCategoryViewModel> pcvm = new List<ProductCategoryViewModel>();
+            foreach (var c in prod.Categories)
+            {
+                ProductCategoryViewModel cvm = new ProductCategoryViewModel(c);
+                pcvm.Add(cvm);
+            }
+            return Json(pcvm, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public async Task<ActionResult> GetOrders(int id)

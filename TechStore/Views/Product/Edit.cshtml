@@ -102,7 +102,7 @@
         </div>
     </div>
 
-    
+    <h1> CATEGORIES: </h1>
     Belongs To Category:
     <div id="categories-for-product" class="row">
 
@@ -111,21 +111,30 @@
     <div id="categories-not-for-product" class="row">
 
     </div>
+    <h1> ORDERS: </h1>
+    Belongs To Order:
+    <div id="orderss-for-product" class="row">
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input id="submit-changes" type="submit" value="Save" class="btn btn-default" />
+    </div>
+    Doesn't Belong to Order
+    <div id="orders-not-for-product" class="row">
+
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit-changes" type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
 
-}
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
     var categoriesForProductDiv = $('#categories-for-product');
     var categoriesNotForProductDiv = $('#categories-not-for-product');
     var categoriesList = [];
@@ -231,7 +240,10 @@
 
                 });
             }
-          };
+        };
+        
+
+
     $(document).ready(function () {
 
         //Get all rpodcucts
@@ -240,4 +252,4 @@
 
     });
 
-</script>
+    </script>

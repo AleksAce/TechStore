@@ -96,62 +96,102 @@
 
         <dd>
             @Html.DisplayFor(model => model.AvailableInStockTime)
-        </dd>
-
-
-        <dd>
-            <button id="see-orders" class="btn btn-primary">See orders</button>
-        </dd>
+        </dd>  
     </dl>
+</div>
+<div>
+    <button id="see-orders" class="btn btn-primary">See orders</button>
 </div>
 <div id="orders">
 
 </div>
+<div>
+    <button id="see-categories" class="btn btn-primary">See categories</button>
+</div>
+<div id="categories">
+
+</div>
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 <style>
-    .appended-buttons{
-        font-size:large;
-        font-family:Consolas;
+    .appended-buttons {
+        font-size: large;
+        font-family: Consolas;
     }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
         var productID = @Model.ProductID;
-        var ajaxUrl = "/Product/GetOrders/" + productID;
+
+        //Orders
         var orderList = $('#orders');
         $('#see-orders').click(function () {
             orderList.empty();
             $.ajax({
                 type: "get",
-                url: ajaxUrl,
-                success: ajaxSuccess,
+                url: "/Product/GetOrders/" + productID,
+                success: ajaxOrdersSuccess,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
 
             });
         });
-        function ajaxSuccess(data, status) {
+        function ajaxOrdersSuccess(data, status) {
 
             showOrders(data);
         };
-        function getHtmlToAppend(counter, orderID, orderdate, customerUserName) {
+        function getOrderHtmlToAppend(counter, orderID, orderdate, customerUserName) {
             //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
             return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
                 + orderID + "' href='/Order/Details/" +
                 orderID + "'>" + customerUserName + ": " + orderdate + "<a><div>";
-        }
+        };
         function showOrders(data) {
 
             for (var i = 0; i < data.length; i++) {
-
-                let orderDateValue = data[i].OrderDate;
                 let num = i + 1;
-                var htmlToAppend = getHtmlToAppend(num, data[i].OrderID, data[i].OrderDate, data[i].CustomerUserName);
-                orderList.append(htmlToAppend);
+                var orderHtmlToAppend = getOrderHtmlToAppend(num, data[i].OrderID, data[i].OrderDate, data[i].CustomerUserName);
+                orderList.append(orderHtmlToAppend);
             }
-        }
+        };
+        //Categories
+        var categoryList = $('#categories');
+        $('#see-categories').click(function () {
+            categoryList.empty();
+            $.ajax({
+                type: "get",
+                url: "/Product/GetCategories/" + productID,
+                success: ajaxCategoriesSuccess,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+            });
+        });
+       
+        function ajaxCategoriesSuccess(data, status) {
+
+            showCategories(data);
+        };
+       
+        function getCategoryHtmlToAppend(counter, CategoryID,CategoryName) {
+            //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
+            return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
+                + CategoryID + "' href='/Category/Details/" +
+                CategoryID + "'>" + CategoryName + "<a><div>";
+        };
+        
+        function showCategories(data) {
+
+            for (var i = 0; i < data.length; i++) {
+                let num = i + 1;
+                var categoryHtmlToAppend = getCategoryHtmlToAppend(num, data[i].CategoryID, data[i].CategoryName);
+                categoryList.append(categoryHtmlToAppend);
+            }
+        };
     });
 </script>

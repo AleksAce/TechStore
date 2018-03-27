@@ -21,7 +21,6 @@ namespace Models
             //Added branch comment
         public Order()
         {
-            OrderDate = DateTime.Now;
             
         }
     }

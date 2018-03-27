@@ -14,22 +14,93 @@ namespace TechStore.Controllers.Admin
     {
         private IOrderRepository _orderRepository;
         private ICustomerRepository _customerRepository;
+        private IProductRepository _productRepository;
 
-        public OrderController(IOrderRepository orderRepository, ICustomerRepository customerRepository)
+        public OrderController(IOrderRepository orderRepository, ICustomerRepository customerRepository,
+            IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
+            _productRepository = productRepository;
         }
-        
-        // GET: Order
+        [HttpGet]
+        public async Task<ActionResult> ProductsPerOrder(int orderID)
+        {
+            Order order = await _orderRepository.GetByIDAsync(orderID);
+            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
+            foreach (var c in order.ProductsOrdered)
+            {
+                OrderProductViewModel pvm = new OrderProductViewModel(c);
+                opvm.Add(pvm);
+            }
+            return Json(opvm, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public async Task<ActionResult> ProductsNotInOrder(int orderID)
+        {
+            Order order = await _orderRepository.GetByIDAsync(orderID);
+            List<Product> productsInOrder = order.ProductsOrdered;
+            List<Product> allProducts = await _productRepository.GetAll();
 
+            List<Product> productsNotInOrder = allProducts.Where(p => p.Orders == null || (p.Orders.ToList().Find(o => o.OrderID == orderID)) == null).ToList();
+
+            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
+            foreach (var p in productsNotInOrder)
+            {
+                OrderProductViewModel pvm = new OrderProductViewModel(p);
+                opvm.Add(pvm);
+            }
+            return Json(opvm, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public async Task<string> RemoveProductFromOrder(int productID, int orderID)
+        {
+            try
+            {
+                await _orderRepository.RemoveProductFromOrder(productID, orderID);
+                await _orderRepository.SaveAll();
+                return "Product successfully removed";
+            }
+            catch
+            {
+                return "Product failed to be removed";
+            }
+        }
+        [HttpGet]
+        public async Task<string> AddProductToOrder(int productID, int orderID)
+        {
+            //Todo: FInd out why it refreshes
+            try
+            {
+                await _orderRepository.AddProductToOrder(productID, orderID);
+                await _orderRepository.SaveAll();
+                return "Product successfully added";
+            }
+            catch
+            {
+                return "Product failed to be added";
+            }
+        }
+        // GET: Order
+        [HttpGet]
+        public async Task<ActionResult> GetProducts(int id)
+        {
+            Order order = await _orderRepository.GetByIDAsync(id);
+            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
+            foreach (var p in order.ProductsOrdered)
+            {
+                OrderProductViewModel ovm = new OrderProductViewModel(p);
+                opvm.Add(ovm);
+            }
+            return Json(opvm, JsonRequestBehavior.AllowGet);
+        }
         public async Task<ActionResult> Index()
         {
-            List<OrderViewModel> lovm = new List<OrderViewModel>();
+            List<CreateOrderViewModel> lovm = new List<CreateOrderViewModel>();
             List<Order> orders = await _orderRepository.GetAll();
             foreach(var o in orders)
             {
-                OrderViewModel ovm = new OrderViewModel(o);
+                CreateOrderViewModel ovm = new CreateOrderViewModel(o);
                 lovm.Add(ovm);
             }
             return View(lovm);
@@ -39,29 +110,52 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Details(int id)
         {
             Order order = await _orderRepository.GetByIDAsync(id);
-            OrderViewModel ovm = new OrderViewModel(order);
+            CreateOrderViewModel ovm = new CreateOrderViewModel(order);
             return View(ovm);
         }
 
         // GET: Order/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create", new CreateOrderViewModel());
         }
 
         // POST: Order/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(CreateOrderViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                try
+                {
+                   Customer customer = await _customerRepository.GetCustomerByNameAsync(model.CustomerName);
+                    if(customer == null)
+                    {
+                        //Ensure there must be a customer
+                        ViewBag.Error = "Customer does not Exist, Please Register the customer";
+                        return View(model);
+                    }
+
+                    Order order = new Order()
+                    {
+                        OrderDate = DateTime.Now,
+                    };
+                    _orderRepository.Add(order);
+                    await _orderRepository.SaveAll();
+                    await _orderRepository.AddCustomerToOrderAsync(order.OrderID, customer.CustomerID);
+                    await _orderRepository.SaveAll();
+                    // TODO: Add insert logic here
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View(model);
+                }
             }
-            catch
+            else
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -69,23 +163,31 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Edit(int id)
         {
             Order order = await _orderRepository.GetByIDAsync(id);
-            OrderViewModel ovm = new OrderViewModel(order);
+            CreateOrderViewModel ovm = new CreateOrderViewModel(order);
             return View(ovm);
         }
 
         // POST: Order/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(CreateOrderViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-
+                ViewBag.Error = "Customer does not Exist, Please register the customer";
+                Customer customer = await _customerRepository.GetCustomerByNameAsync(model.CustomerName);
+                if (customer == null)
+                {
+                    //Ensure there must be a customer
+                    return View(model);
+                }
+                await _orderRepository.AddCustomerToOrderAsync(model.OrderID, customer.CustomerID);
+                await _orderRepository.SaveAll();
+                // TODO: Add insert logic here
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -93,7 +195,7 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult>Delete(int id)
         {
             Order order = await _orderRepository.GetByIDAsync(id);
-            OrderViewModel ovm = new OrderViewModel(order);
+            CreateOrderViewModel ovm = new CreateOrderViewModel(order);
             return View(ovm);
         }
 
