@@ -11,6 +11,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/Store/EditingFactories.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" />
 
 </head>
@@ -74,27 +75,27 @@
         </div>
     </div>
 
-
-
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    @System.Reflection.Assembly.GetCallingAssembly().GetName().Version;
     <div class="page-footer">
         <div class="row">
             <div class="copyright col-md-6 ">
                 <p>Copyright &copy; @DateTime.Now.Year</p>
             </div>
             <div class="scroll-top col-md-6">
-                <button id="scroll-to-top">
+                <button id="scroll-to-top" onclick="scrollPageToTop()">
                     <i class="fa fa-angle-up"></i>
                 </button>
             </div>
         </div>
     </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Store/Store.js"></script>
+
+
 </body>
-<!--TODO: Fix the footer not being on bottom all the time-->
 
 
 </html>
 
-<script src="~/Scripts/Store/Store.js"></script>
+

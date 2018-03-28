@@ -111,15 +111,6 @@
     <div id="categories-not-for-product" class="row">
 
     </div>
-    <h1> ORDERS: </h1>
-    Belongs To Order:
-    <div id="orderss-for-product" class="row">
-
-    </div>
-    Doesn't Belong to Order
-    <div id="orders-not-for-product" class="row">
-
-    </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -135,77 +126,19 @@
     </div>
 
     <script type="text/javascript">
-    var categoriesForProductDiv = $('#categories-for-product');
-    var categoriesNotForProductDiv = $('#categories-not-for-product');
-    var categoriesList = [];
-    var htmlToAppendForRemove = function (CategoryID, Name) {
-        return "<div class='col-md-6' id='" + CategoryID +
-            "'><p>" + Name + "</p>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<button class='btn btn-danger btn-remove' onclick='RemoveCategory(" + CategoryID + ")'" +
-            ">Remove From Category</button>" +
-            "</div>";
-    };
-    var htmlToAppendForAdd =  function (CategoryID, Name) {
-        return "<div class='col-md-6' id='" + CategoryID +
-            "'><p>" + Name + "</p>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<button class='btn btn-success' onclick='AddCategory(" + CategoryID + ")'" +
-            ">Add To Category</button>" +
-            "</div>";
-    };
+    var $categoriesForProductDiv = $('#categories-for-product');
+    var $categoriesNotForProductDiv = $('#categories-not-for-product');
+
+        var appendingFactory = new htmlAppendingFactory();
+        var itemsFactory = new storeFactory(appendingFactory);
     function ajaxSuccess(data, status) {
-        GetCategoriesPerProduct();
-        GetCategoriesNotInProduct();
+        itemsFactory.GetCategoriesPerProduct($categoriesForProductDiv,@Model.ProductID);
+        itemsFactory.GetCategoriesNotInProduct($categoriesNotForProductDiv,@Model.ProductID);
     };
 
-    function GetCategoriesNotInProduct() {
-            //Get all products
-         categoriesNotForProductDiv.empty();
-            $.ajax({
-                    type: "get",
-                    url: "/Product/CategoriesNotInProduct/" + @Model.ProductID,
-                    success: function (data) {
-                        //Once you get the data append it to the Div
-
-                        $.each(data, function (index, item) {
-                            //Append with add button
-                            let categoryHTML = htmlToAppendForAdd(item.CategoryID, item.CategoryName);
-                            categoriesNotForProductDiv.append(categoryHTML);
-                        });
-                    },
-                    data: {
-                        productID: @Model.ProductID,
-                    },
-                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                });
-        };
-    function GetCategoriesPerProduct() {
-            //Get all products
-            categoriesForProductDiv.empty();
-            $.ajax({
-                    type: "get",
-                    url: "/Product/CategoriesPerProduct/" + @Model.ProductID,
-                    success: function (data) {
-                        //Once you get the data append it to the Div
-
-                        $.each(data, function (index, item) {
-                            //Append with remove button
-                            let categoryHTML = htmlToAppendForRemove(item.CategoryID, item.CategoryName);
-                            categoriesForProductDiv.append(categoryHTML);
-                        });
-                    },
-                    data: {
-                        productID: @Model.ProductID,
-                    },
-                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                });
-        };
-     var RemoveCategory = function(id){
+   
+        var RemoveCategory = function (id, event) {
+            event.preventDefault();
             var buttonID = id;
             var shouldRemove = confirm("Are you sure you want to remove this product from the category?");
             if (shouldRemove) {
@@ -223,7 +156,8 @@
                 });
             }
         };
-    var AddCategory = function(id){
+        var AddCategory = function (id, event) {
+            event.preventDefault();
             var buttonID = id;
             var shouldRemove = confirm("Are you sure you want to add this product to the category?");
             if (shouldRemove) {
@@ -246,9 +180,9 @@
 
     $(document).ready(function () {
 
-        //Get all rpodcucts
-        GetCategoriesPerProduct();
-        GetCategoriesNotInProduct();
+        
+       itemsFactory.GetCategoriesPerProduct($categoriesForProductDiv,@Model.ProductID);
+        itemsFactory.GetCategoriesNotInProduct($categoriesNotForProductDiv,@Model.ProductID);
 
     });
 

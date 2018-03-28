@@ -1,13 +1,7 @@
 ﻿
+<div ng-app="storeApp">
 
-<!DOCTYPE html>
-
-<html ng-app="storeApp">
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Products</title>
-</head>
-<body ng-controller="productController">
+<div ng-controller="productController">
     <div>
         {{message}}
         <ng-view></ng-view>
@@ -17,8 +11,8 @@
         <a href="#!Product2">Product2</a>
         @Html.ActionLink("Home", "Index", "Store")
     </div>
-</body>
-</html>
+</div>
+</div>
 <script src="~/Scripts/angular.min.js"></script>
 <script src="~/Scripts/angular-route.min.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>

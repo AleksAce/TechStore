@@ -55,77 +55,18 @@
 
 <script type="text/javascript">
     //ORDERS
-    var productsForOrderDiv = $('#products-for-order');
-    var productsNotForOrderDiv = $('#products-not-for-order');
-    var productsList = [];
-
-    var htmlToAppendForRemoveProduct = function (ProductID, Name) {
-        return "<div class='col-md-6' id='" + ProductID +
-            "'><p>" + Name + "</p>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<button class='btn btn-danger btn-remove' onclick='RemoveProduct(" + ProductID + ")'" +
-            ">Remove Product</button>" +
-            "</div>";
-    };
-    var htmlToAppendForAddProduct = function (ProductID, Name) {
-        return "<div class='col-md-6' id='" + ProductID +
-            "'><p>" + Name + "</p>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<button class='btn btn-success' onclick='AddProduct(" + ProductID + ")'" +
-            ">Add Product</button>" +
-            "</div>";
-    };
+    var $productsForOrderDiv = $('#products-for-order');
+    var $productsNotForOrderDiv = $('#products-not-for-order');
+    var appendingFactory = new htmlAppendingFactory();
+    var itemsFactory = new storeFactory(appendingFactory);
     function ajaxSuccess(data, status) {
-        GetProductsPerOrder();
-        GetProductsNotInOrder();
+
+        itemsFactory.GetProductsPerOrder($productsForOrderDiv,@Model.OrderID);
+        itemsFactory.GetProductsNotInOrder($productsNotForOrderDiv,@Model.OrderID);
     };
-    function GetProductsNotInOrder() {
-            //Get all products
-        productsNotForOrderDiv.empty();
-            $.ajax({
-                    type: "get",
-                    url: "/Order/ProductsNotInOrder/" + @Model.OrderID,
-                    success: function (data) {
-                        //Once you get the data append it to the Div
-
-                        $.each(data, function (index, item) {
-                            //Append with add button
-                            let productHTML = htmlToAppendForAddProduct(item.ProductID, item.ProductName);
-                            productsNotForOrderDiv.append(productHTML);
-                        });
-                    },
-                    data: {
-                        orderID: @Model.OrderID,
-                    },
-                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                });
-        };
-        function GetProductsPerOrder() {
-            //Get all products
-            productsForOrderDiv.empty();
-            $.ajax({
-                    type: "get",
-                    url: "/Order/ProductsPerOrder/" + @Model.OrderID,
-                    success: function (data) {
-                        //Once you get the data append it to the Div
-
-                        $.each(data, function (index, item) {
-                            //Append with remove button
-                            let productHTML = htmlToAppendForRemoveProduct(item.ProductID, item.ProductName);
-                            productsForOrderDiv.append(productHTML);
-                        });
-                    },
-                    data: {
-                        orderID: @Model.OrderID,
-                    },
-                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                });
-        };
-     var RemoveProduct = function(id){
+    
+    var RemoveProduct = function (id, event) {
+        event.preventDefault();
             var buttonID = id;
             var shouldRemove = confirm("Are you sure you want to remove this product from the order?");
             if (shouldRemove) {
@@ -143,7 +84,8 @@
                 });
             }
         };
-    var AddProduct = function(id){
+    var AddProduct = function (id, event) {
+        event.preventDefault();
             var buttonID = id;
             var shouldRemove = confirm("Are you sure you want to add this product to the order?");
             if (shouldRemove) {
@@ -165,10 +107,9 @@
 
 
     $(document).ready(function () {
-
         //Get all rpodcucts
-        GetProductsPerOrder();
-        GetProductsNotInOrder();
+        itemsFactory.GetProductsPerOrder($productsForOrderDiv,@Model.OrderID);
+        itemsFactory.GetProductsNotInOrder($productsNotForOrderDiv,@Model.OrderID);
 
     });
 </script>

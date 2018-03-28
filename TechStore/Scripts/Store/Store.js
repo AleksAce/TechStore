@@ -1,5 +1,8 @@
 ﻿    //Note: Use this with main-content and preloader classes when we wait
-    var showLoader = function (interval) {
+var scrollPageToTop = function () {
+    $("html,body").animate({ scrollTop: 0 }, "slow");
+}
+var showLoader = function (interval) {
         $('.main-content').css('display', 'none');
         $('#preloader').css('display', 'initial');
        var interval =setInterval(function () {
@@ -13,13 +16,11 @@
         //Disable this to stop the automatic loader
         //showLoader(10000);
     });
-
+    
     $(document).ready(function () {
-        $('#scroll-to-top').click(function () {
-            $('html').animate({scrollTop:0}, "slow");
-        });
+       
         //Todo: Fix this!
-        $('.scroll-to-top').mouseover(function () {
-           
+        $('.scroll-to-top').click(function () {
+            scrollPageToTop();
         });
     });
