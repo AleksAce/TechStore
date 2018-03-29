@@ -58,12 +58,11 @@ namespace DataAccess.Abstract
         }
        
         //Creates an order with the products given
-        public async Task CreateOrder(List<Product> ProductsForOrder, string CustomerID)
+        public async Task CreateOrder(List<Product> ProductsForOrder, int CustomerID)
         {
 
             Order order = new Order();
             order.OrderDate = DateTime.Now;
-            order.ProductsOrdered = new List<Product>();
             foreach (var prod in ProductsForOrder)
             {
                 var ProductToOrder = await context.Products.FindAsync(prod.ProductID);
@@ -104,7 +103,7 @@ namespace DataAccess.Abstract
     }
     public interface IOrderRepository : IStoreRepository<Order>
     {
-        Task CreateOrder(List<Product> ProductsForOrder, string CustomerID);
+        Task CreateOrder(List<Product> ProductsForOrder, int CustomerID);
         Task AddProductToOrder(int ProductID, int OrderID);
         Task RemoveProductFromOrder(int ProductID, int OrderID);
         Task AddCustomerToOrderAsync(int orderID, int customerID);

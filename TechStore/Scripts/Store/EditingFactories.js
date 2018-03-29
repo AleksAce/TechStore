@@ -1,5 +1,16 @@
 ﻿var htmlAppendingFactory = function () {
-        var fact = {};
+    var fact = {};
+    fact.htmlToAppendForRemoveOrder = function (OrderID, Name) {
+        return "<div class='col-md-6' id='" + OrderID +
+            "'>" + "<a class='appended-buttons btn btn-primary id='"
+            + OrderID + "' href='/Order/Details/" +
+            OrderID + "'>" + Name + "</a>" +
+            "</div>" +
+            "<div class='col-md-6'>" +
+            "<button class='btn btn-danger btn-remove' onclick='RemoveOrder(" + OrderID + ",event)'" +
+            ">Remove Order</button>" +
+            "</div>";
+    };
         fact.htmlToAppendForRemoveProduct = function (ProductID, Name) {
             return "<div class='col-md-6' id='" + ProductID +
                 "'><p>" + Name + "</p>" +
@@ -43,7 +54,28 @@
 
 var storeFactory = function (appendingFactory) {
     var fact = {};
+    fact.GetOrdersPerCustomer = function (divToAppendTo, customerID) {
+        //Get all products
+        divToAppendTo.empty();
+        $.ajax({
+            type: "get",
+            url: "/Customer/GetOrders/" + customerID,
+            success: function (data) {
+                //Once you get the data append it to the Div
 
+                $.each(data, function (index, item) {
+                    //Append with remove button
+                    let itemHTML = appendingFactory.htmlToAppendForRemoveOrder(item.OrderID, item.OrderDate);
+                    divToAppendTo.append(itemHTML);
+                });
+            },
+            data: {
+                customerID: customerID,
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+    };
     fact.GetProductsNotInOrder = function (divToAppendTo,orderID) {
         //Get all products
         divToAppendTo.empty();

@@ -37,6 +37,51 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id= Model.CustomerID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<div>
+    <button id="see-orders" class="btn btn-primary">See orders</button>
+</div>
+<div id="orders">
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        //Orders
+        var orderList = $('#orders');
+        $('#see-orders').click(function () {
+            orderList.empty();
+            $.ajax({
+                type: "get",
+                url: "/Customer/GetOrders/" + @Model.CustomerID,
+                success: ajaxOrdersSuccess,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+            });
+        });
+        function ajaxOrdersSuccess(data, status) {
+
+            showOrders(data);
+        };
+        function getOrderHtmlToAppend(counter, orderID, orderdate, customerUserName) {
+            //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
+            return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
+                + orderID + "' href='/Order/Details/" +
+                orderID + "'>" + customerUserName + ": " + orderdate + "<a><div>";
+        };
+        function showOrders(data) {
+
+            for (var i = 0; i < data.length; i++) {
+                let num = i + 1;
+                var orderHtmlToAppend = getOrderHtmlToAppend(num, data[i].OrderID, data[i].OrderDate, data[i].CustomerUserName);
+                orderList.append(orderHtmlToAppend);
+            }
+        };
+       
+    });
+</script>

@@ -180,6 +180,8 @@ namespace TechStore.Controllers.Admin
                     //Ensure there must be a customer
                     return View(model);
                 }
+                Order order =await  _orderRepository.GetByIDAsync(model.OrderID);
+                //order.
                 await _orderRepository.AddCustomerToOrderAsync(model.OrderID, customer.CustomerID);
                 await _orderRepository.SaveAll();
                 // TODO: Add insert logic here

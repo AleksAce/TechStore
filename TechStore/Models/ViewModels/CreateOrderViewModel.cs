@@ -16,7 +16,15 @@ namespace TechStore.Models.ViewModels
         public CreateOrderViewModel(Order order)
         {
             OrderID = order.OrderID;
-            CustomerName = order.customer.UserName;
+            if (order.customer != null)
+            {
+                CustomerName = order.customer.UserName;
+            }
+            else
+            {
+                CustomerName = "This order has no customer.";
+            }
+            OrderDate = order.OrderDate;
         }
         public int OrderID { get; set; }
         [Required]
