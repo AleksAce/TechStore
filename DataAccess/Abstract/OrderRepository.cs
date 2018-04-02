@@ -48,7 +48,13 @@ namespace DataAccess.Abstract
             {
                 Order order = await GetByIDAsync(OrderID);
                 Product product = await context.Products.FindAsync(ProductID);
-                order.ProductsOrdered.Add(product);
+                ProductWithCompletedOrder productOrderInfo = new ProductWithCompletedOrder()
+                {
+                    productID = ProductID,
+                    PricePayed = product.Price,
+
+                };
+                order.ProductsOrderInfo.Add(productOrderInfo);
             }
             catch
             {
@@ -58,15 +64,14 @@ namespace DataAccess.Abstract
         }
        
         //Creates an order with the products given
-        public async Task CreateOrder(List<Product> ProductsForOrder, int CustomerID)
+        public async Task CreateOrder(List<ProductWithCompletedOrder> ProductsForOrder, int CustomerID)
         {
 
             Order order = new Order();
             order.OrderDate = DateTime.Now;
-            foreach (var prod in ProductsForOrder)
+            foreach (var prodForOrder in ProductsForOrder)
             {
-                var ProductToOrder = await context.Products.FindAsync(prod.ProductID);
-                order.ProductsOrdered.Add(ProductToOrder);
+                order.ProductsOrderInfo.Add(prodForOrder);
             }
             Customer CustomerOrdering = await context.Customers.FindAsync(CustomerID);
             order.customer = CustomerOrdering;
@@ -77,23 +82,23 @@ namespace DataAccess.Abstract
 
         public override Task<List<Order>> GetAllAsync()
         {
-            return dbSet.Include(o => o.ProductsOrdered).ToListAsync();
+            return dbSet.ToListAsync();
           
 
         }
         public async override Task<Order> GetByIDAsync(int id)
         {
-            return await dbSet.Include(o => o.ProductsOrdered).SingleOrDefaultAsync(o => o.OrderID == id);
+            return await dbSet.SingleOrDefaultAsync(o => o.OrderID == id);
         }
 
         
-        public async Task RemoveProductFromOrder(int ProductID, int OrderID)
+        public async Task RemoveProductFromOrder(int ProductInfoID, int OrderID)
         {
             try
             {
                 Order order = await GetByIDAsync(OrderID);
-                Product product = await context.Products.FindAsync(ProductID);
-                order.ProductsOrdered.Remove(product);
+                ProductWithCompletedOrder productOrderInfo = await context.ProductsOrdered.FindAsync(ProductInfoID);
+                order.ProductsOrderInfo.Remove(productOrderInfo);
             }catch
             {
                 throw;
@@ -103,9 +108,9 @@ namespace DataAccess.Abstract
     }
     public interface IOrderRepository : IStoreRepository<Order>
     {
-        Task CreateOrder(List<Product> ProductsForOrder, int CustomerID);
+        Task CreateOrder(List<ProductWithCompletedOrder> ProductsForOrder, int CustomerID);
         Task AddProductToOrder(int ProductID, int OrderID);
-        Task RemoveProductFromOrder(int ProductID, int OrderID);
+        Task RemoveProductFromOrder(int ProductInfoID, int OrderID);
         Task AddCustomerToOrderAsync(int orderID, int customerID);
         Task RemoveCustomerFromOrderAsync(int orderID, int customerID);
     }

@@ -11,8 +11,10 @@ namespace Models
         public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
 
+
         //ProductInfo
-        public virtual List<Product> ProductsOrdered { get; set; }
+        public virtual List<ProductWithCompletedOrder> ProductsOrderInfo { get; set; }
+
 
         public virtual Customer customer { get; set; }
         //CUSTOMER TODO:

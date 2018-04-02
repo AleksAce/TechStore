@@ -11,18 +11,20 @@
             ">Remove Order</button>" +
             "</div>";
     };
-        fact.htmlToAppendForRemoveProduct = function (ProductID, Name) {
-            return "<div class='col-md-6' id='" + ProductID +
+        fact.htmlToAppendForRemoveProduct = function (ProductInfoID, Name, Price) {
+            return "<div class='col-md-6' id='" + ProductInfoID +
                 "'><p>" + Name + "</p>" +
+                "<p>" + Price + "</p>" +
                 "</div>" +
                 "<div class='col-md-6'>" +
-                "<button class='btn btn-danger btn-remove' onclick='RemoveProduct(" + ProductID + ",event)'" +
+                "<button class='btn btn-danger btn-remove' onclick='RemoveProduct(" + ProductInfoID + ",event)'" +
                 ">Remove Product</button>" +
                 "</div>";
         };
-        fact.htmlToAppendForAddProduct = function (ProductID, Name) {
+        fact.htmlToAppendForAddProduct = function (ProductID, Name, Price) {
             return "<div class='col-md-6' id='" + ProductID +
                 "'><p>" + Name + "</p>" +
+                "<p>" + Price + "</p>" +
                 "</div>" +
                 "<div class='col-md-6'>" +
                 "<button class='btn btn-success' onclick='AddProduct(" + ProductID + ", event)'" +
@@ -76,28 +78,29 @@ var storeFactory = function (appendingFactory) {
             dataType: "json",
         });
     };
-    fact.GetProductsNotInOrder = function (divToAppendTo,orderID) {
+    fact.GetAllAvailableProducts = function (divToAppendTo) {
         //Get all products
         divToAppendTo.empty();
         $.ajax({
             type: "get",
-            url: "/Order/ProductsNotInOrder/" + orderID,
-        success: function (data) {
-            //Once you get the data append it to the Div
+            url: "/Order/GetAllProducts" ,
+            success: function (data) {
+                //Once you get the data append it to the Div
 
-            $.each(data, function (index, item) {
-                //Append with add button
-                let productHTML = appendingFactory.htmlToAppendForAddProduct(item.ProductID, item.ProductName);
-                divToAppendTo.append(productHTML);
-            });
-        },
-        data: {
-            orderID: orderID,
-        },
-        contentType: "application/json; charset=utf-8",
+                $.each(data, function (index, item) {
+                    //Append with add button
+                    let productHTML = appendingFactory.htmlToAppendForAddProduct(item.ProductID, item.ProductName, item.Price);
+                    divToAppendTo.append(productHTML);
+                });
+            },
+            data: {
+                
+            },
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
         });
     };
+   
     fact.GetProductsPerOrder = function (divToAppendTo,orderID) {
         //Get all products
         divToAppendTo.empty();
@@ -109,7 +112,7 @@ var storeFactory = function (appendingFactory) {
 
             $.each(data, function (index, item) {
                 //Append with remove button
-                let productHTML = appendingFactory.htmlToAppendForRemoveProduct(item.ProductID, item.ProductName);
+                let productHTML = appendingFactory.htmlToAppendForRemoveProduct(item.ProductInfoID, item.ProductName, item.Price);
                 divToAppendTo.append(productHTML);
             });
         },

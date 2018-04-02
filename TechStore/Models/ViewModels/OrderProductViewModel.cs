@@ -8,12 +8,13 @@ namespace TechStore.Models.ViewModels
 {
     public class OrderProductViewModel
     {
-        public OrderProductViewModel(Product product)
+        public OrderProductViewModel()
         {
-            ProductID = product.ProductID;
-            ProductName = product.Name;
+           
         }
         public int ProductID { get; set; }
         public string ProductName { get; set; }
+        public float Price { get; set; }
+        public int ProductInfoID { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+
 using Models;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace DataAccess
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<ProductWithCompletedOrder> ProductsOrdered { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasMany(c => c.OrdersIssued).WithOptional(c => c.customer);
@@ -67,8 +69,7 @@ namespace DataAccess
                    category1,
                    category2
                  };
-                product1.Orders = new List<Order>();
-                product1.Orders.Add(order1);
+               
                 context.Products.Add(product1);
                 
             }

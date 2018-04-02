@@ -67,18 +67,18 @@
         showProducts(data);
     };
 
-    function getProductHtmlToAppend(counter, ProductID, ProductName) {
+    function getProductHtmlToAppend(counter, ProductID, ProductName,Price) {
         //1.<a href="order/id class='appended-buttons' id='OrderID'">March 20<a>
         return "<div class='col-md-6'>" + counter + ". " + "<a class='appended-buttons btn btn-primary id='"
             + ProductID + "' href='/Product/Details/" +
-            ProductID + "'>" + ProductName + "<a><div>";
+            ProductID + "'>" + ProductName +" $" + Price + "<a><div>";
     };
 
     function showProducts(data) {
 
         for (var i = 0; i < data.length; i++) {
             let num = i + 1;
-            var productHtmlToAppend = getProductHtmlToAppend(num, data[i].ProductID, data[i].ProductName);
+            var productHtmlToAppend = getProductHtmlToAppend(num, data[i].ProductID, data[i].ProductName, data[i].Price);
             productList.append(productHtmlToAppend);
         }
     };

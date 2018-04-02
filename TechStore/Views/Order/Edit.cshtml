@@ -62,7 +62,6 @@
     function ajaxSuccess(data, status) {
 
         itemsFactory.GetProductsPerOrder($productsForOrderDiv,@Model.OrderID);
-        itemsFactory.GetProductsNotInOrder($productsNotForOrderDiv,@Model.OrderID);
     };
     
     var RemoveProduct = function (id, event) {
@@ -74,7 +73,7 @@
                     type: "get",
                     url: "/Order/RemoveProductFromOrder",
                     data: {
-                        productID: buttonID,
+                        productInfoID: buttonID,
                         orderID: @Model.OrderID,
                     },
                     success: ajaxSuccess,
@@ -109,7 +108,7 @@
     $(document).ready(function () {
         //Get all rpodcucts
         itemsFactory.GetProductsPerOrder($productsForOrderDiv,@Model.OrderID);
-        itemsFactory.GetProductsNotInOrder($productsNotForOrderDiv,@Model.OrderID);
+        itemsFactory.GetAllAvailableProducts($productsNotForOrderDiv);
 
     });
 </script>

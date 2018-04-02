@@ -159,7 +159,7 @@ namespace TechStore.Controllers.Admin
         {
             Customer cust = await _customerRepository.GetCustomerByNameAsync(userName);
 
-            await _orderRepository.CreateOrder(new List<Product>(), cust.CustomerID);
+            await _orderRepository.CreateOrder(new List<ProductWithCompletedOrder>(), cust.CustomerID);
             await _orderRepository.SaveAll();
             return RedirectToAction("Edit", "Order", new { id= cust.OrdersIssued.Last().OrderID});
         }

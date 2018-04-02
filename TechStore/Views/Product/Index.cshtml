@@ -78,9 +78,7 @@
             @Html.DisplayFor(modelItem => item.AvailableInStockTime)
         </td>
 
-        <td>
-            @Html.ActionLink("See Orders", "OrderDetails", new { id = item.ProductID })
-        </td>
+       
         <td>
             @Html.ActionLink("Edit", "Edit", new {  id=item.ProductID  }) |
             @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |

@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TechStore.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using DataAccess.Abstract;
+using Models;
 
 namespace TechStore.Controllers
 {
@@ -19,9 +21,10 @@ namespace TechStore.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
-
-        public AccountController()
+        private ICustomerRepository _customerRepository;
+        public AccountController(ICustomerRepository customerRepository)
         {
+            _customerRepository = customerRepository;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
@@ -180,6 +183,13 @@ namespace TechStore.Controllers
                 
                 if (result.Succeeded)
                 {
+                    //Create a new Customer for the app
+                    _customerRepository.Add(new Customer() {
+                        UserName = model.UserName,
+                        DateRegistered = DateTime.Now
+                    });
+                    await _customerRepository.SaveAll();
+                    //Add the user to the role User
                     result = await UserManager.AddToRoleAsync(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 

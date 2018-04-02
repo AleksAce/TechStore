@@ -31,22 +31,28 @@ namespace DataAccess.Migrations
                     Name = "Category1",
                     },
                 },
-                Orders = new List<Order>()
-                    {
-                       new Order()
-                       {
-                           OrderDate = DateTime.Now,
-                           OrderID = 1,
-                           customer = new Customer()
-                           {
-                               CustomerID = 1,
-                               DateRegistered = DateTime.Now,
-                               UserName = "Customer1"
-                           }
-                       }
-                    },
+               
             });
-           
+            context.Orders.AddOrUpdate(new Order()
+            {
+                OrderDate = DateTime.Now,
+                OrderID = 1,
+                customer = new Customer()
+                {
+                    CustomerID = 1,
+                    DateRegistered = DateTime.Now,
+                    UserName = "Customer1"
+                },
+                ProductsOrderInfo = new List<ProductWithCompletedOrder>()
+                {
+                    new ProductWithCompletedOrder(){
+                    productID = 1,
+                    PricePayed = 20,
+                    }
+                }
+            });
+
+
 
             context.SaveChanges();
 

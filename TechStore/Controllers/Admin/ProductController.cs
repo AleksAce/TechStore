@@ -95,18 +95,7 @@ namespace TechStore.Controllers.Admin
             }
             return Json(pcvm, JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
-        public async Task<ActionResult> GetOrders(int id)
-        {
-            Product prod = await _productRepository.GetByIDAsync(id);
-            List<ProductOrderViewModel> povm = new List<ProductOrderViewModel>();
-            foreach(var o in prod.Orders)
-            {
-                ProductOrderViewModel ovm = new ProductOrderViewModel(o);
-                povm.Add(ovm);
-            }
-            return Json(povm, JsonRequestBehavior.AllowGet);
-        }
+        
 
         
         // GET: Product

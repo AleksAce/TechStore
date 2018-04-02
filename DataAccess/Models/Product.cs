@@ -28,8 +28,6 @@ namespace Models
 
         public virtual List<Category> Categories { get; set; }
 
-        //Order Info
-        public virtual List<Order> Orders { get; set; }
 
         public Product()
         {

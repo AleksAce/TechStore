@@ -23,41 +23,50 @@ namespace TechStore.Controllers.Admin
             _customerRepository = customerRepository;
             _productRepository = productRepository;
         }
+       
+        [HttpGet]
+        public async Task<ActionResult> GetAllProducts()
+        {
+            List<Product> allProducts = await _productRepository.GetAllAsync();
+            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
+            foreach (var c in allProducts)
+            {
+                OrderProductViewModel pvm = new OrderProductViewModel() {
+                    ProductID = c.ProductID,
+                    Price = c.Price,
+                    ProductName = c.Name,
+                };
+                opvm.Add(pvm);
+            }
+            return Json(opvm, JsonRequestBehavior.AllowGet);
+        }
+        //Note: This gets the already payed prices
         [HttpGet]
         public async Task<ActionResult> ProductsPerOrder(int orderID)
         {
             Order order = await _orderRepository.GetByIDAsync(orderID);
             List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
-            foreach (var c in order.ProductsOrdered)
+            foreach (var c in order.ProductsOrderInfo)
             {
-                OrderProductViewModel pvm = new OrderProductViewModel(c);
+                var product = await _productRepository.GetByIDAsync(c.productID);
+                OrderProductViewModel pvm = new OrderProductViewModel()
+                {
+                    ProductInfoID = c.ProductWithCompletedOrderID,
+                    ProductID = c.productID,
+                    Price = c.PricePayed,
+                    ProductName = product.Name
+                };
                 opvm.Add(pvm);
             }
             return Json(opvm, JsonRequestBehavior.AllowGet);
         }
+        
         [HttpGet]
-        public async Task<ActionResult> ProductsNotInOrder(int orderID)
-        {
-            Order order = await _orderRepository.GetByIDAsync(orderID);
-            List<Product> productsInOrder = order.ProductsOrdered;
-            List<Product> allProducts = await _productRepository.GetAllAsync();
-
-            List<Product> productsNotInOrder = allProducts.Where(p => p.Orders == null || (p.Orders.ToList().Find(o => o.OrderID == orderID)) == null).ToList();
-
-            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
-            foreach (var p in productsNotInOrder)
-            {
-                OrderProductViewModel pvm = new OrderProductViewModel(p);
-                opvm.Add(pvm);
-            }
-            return Json(opvm, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public async Task<string> RemoveProductFromOrder(int productID, int orderID)
+        public async Task<string> RemoveProductFromOrder(int ProductInfoID, int orderID)
         {
             try
             {
-                await _orderRepository.RemoveProductFromOrder(productID, orderID);
+                await _orderRepository.RemoveProductFromOrder(ProductInfoID, orderID);
                 await _orderRepository.SaveAll();
                 return "Product successfully removed";
             }
@@ -87,10 +96,16 @@ namespace TechStore.Controllers.Admin
         {
             Order order = await _orderRepository.GetByIDAsync(id);
             List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
-            foreach (var p in order.ProductsOrdered)
+            foreach (var p in order.ProductsOrderInfo)
             {
-                OrderProductViewModel ovm = new OrderProductViewModel(p);
-                opvm.Add(ovm);
+                OrderProductViewModel pvm = new OrderProductViewModel()
+                {
+                    ProductInfoID = p.ProductWithCompletedOrderID,
+                    ProductID = p.productID,
+                    Price = p.PricePayed,
+                    ProductName = (await _productRepository.GetByIDAsync(p.productID)).Name,
+                };
+                opvm.Add(pvm);
             }
             return Json(opvm, JsonRequestBehavior.AllowGet);
         }

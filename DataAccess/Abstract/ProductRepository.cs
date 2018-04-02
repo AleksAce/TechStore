@@ -27,17 +27,17 @@ namespace DataAccess.Abstract
         
         public  Task<Product> GetProductByNameAsync(string name)
         {
-                return  dbSet.Include(p => p.Orders).Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
+                return  dbSet.Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
         }
         public override Task<List<Product>> GetAllAsync()
         {
-           return dbSet.Include(p => p.Categories).Include(p=>p.Orders).ToListAsync();
+           return dbSet.Include(p => p.Categories).ToListAsync();
            
             
         }
         public async override Task<Product> GetByIDAsync(int id)
         {
-                return await dbSet.Include(p => p.Categories).Include(p => p.Orders).SingleOrDefaultAsync(p => p.ProductID == id);
+                return await dbSet.Include(p => p.Categories).SingleOrDefaultAsync(p => p.ProductID == id);
         }
 
         public async Task AddProductToCategoryAsync(int productID, int categoryID)
