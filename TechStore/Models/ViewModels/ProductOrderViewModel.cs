@@ -18,6 +18,7 @@ namespace TechStore.Models.ViewModels
         public int OrderID { get; set; }
         public string OrderDate { get; set; }
         public string CustomerUserName { get; set; }
+        public float FullPrice { get; set; }
         //Users
     }
 }

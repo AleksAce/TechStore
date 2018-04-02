@@ -54,10 +54,13 @@
         productList.empty();
         $.ajax({
             type: "get",
-            url: "/Order/GetProducts/" + orderID,
+            url: "/Order/ProductsPerOrder",
             success: ajaxProductsSuccess,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            data: {
+                orderID: orderID,
+            },
 
         });
     });

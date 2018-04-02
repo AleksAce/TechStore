@@ -1,10 +1,10 @@
 ﻿var htmlAppendingFactory = function () {
     var fact = {};
-    fact.htmlToAppendForRemoveOrder = function (OrderID, Name) {
+    fact.htmlToAppendForRemoveOrder = function (OrderID, Name, fullPrice) {
         return "<div class='col-md-6' id='" + OrderID +
             "'>" + "<a class='appended-buttons btn btn-primary id='"
             + OrderID + "' href='/Order/Details/" +
-            OrderID + "'>" + Name + "</a>" +
+            OrderID + "'>" + " $" + fullPrice + " " + Name + "</a>" +
             "</div>" +
             "<div class='col-md-6'>" +
             "<button class='btn btn-danger btn-remove' onclick='RemoveOrder(" + OrderID + ",event)'" +
@@ -13,8 +13,7 @@
     };
         fact.htmlToAppendForRemoveProduct = function (ProductInfoID, Name, Price) {
             return "<div class='col-md-6' id='" + ProductInfoID +
-                "'><p>" + Name + "</p>" +
-                "<p>" + Price + "</p>" +
+                "'><p>" + " $" + Price + " " + Name + "</p>" + 
                 "</div>" +
                 "<div class='col-md-6'>" +
                 "<button class='btn btn-danger btn-remove' onclick='RemoveProduct(" + ProductInfoID + ",event)'" +
@@ -23,8 +22,8 @@
         };
         fact.htmlToAppendForAddProduct = function (ProductID, Name, Price) {
             return "<div class='col-md-6' id='" + ProductID +
-                "'><p>" + Name + "</p>" +
-                "<p>" + Price + "</p>" +
+                "'><p>" + " $" + Price + " " + Name + "</p>" +
+                
                 "</div>" +
                 "<div class='col-md-6'>" +
                 "<button class='btn btn-success' onclick='AddProduct(" + ProductID + ", event)'" +
@@ -67,7 +66,7 @@ var storeFactory = function (appendingFactory) {
 
                 $.each(data, function (index, item) {
                     //Append with remove button
-                    let itemHTML = appendingFactory.htmlToAppendForRemoveOrder(item.OrderID, item.OrderDate);
+                    let itemHTML = appendingFactory.htmlToAppendForRemoveOrder(item.OrderID, item.OrderDate, item.FullPrice);
                     divToAppendTo.append(itemHTML);
                 });
             },

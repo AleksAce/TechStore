@@ -39,9 +39,12 @@ namespace TechStore.Controllers.Admin
         {
             Customer customer  = await _customerRepository.GetByIDAsync(customerID);
             List<CustomerOrderViewModel> covm = new List<CustomerOrderViewModel>();
+            
             foreach (var o in customer.OrdersIssued)
             {
+                float price = o.ProductsOrderInfo.Sum(p => p.PricePayed);
                 CustomerOrderViewModel cvm = new CustomerOrderViewModel(o);
+                cvm.FullPrice = price;
                 covm.Add(cvm);
             }
             return Json(covm, JsonRequestBehavior.AllowGet);

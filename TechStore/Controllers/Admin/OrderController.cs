@@ -91,24 +91,7 @@ namespace TechStore.Controllers.Admin
             }
         }
         // GET: Order
-        [HttpGet]
-        public async Task<ActionResult> GetProducts(int id)
-        {
-            Order order = await _orderRepository.GetByIDAsync(id);
-            List<OrderProductViewModel> opvm = new List<OrderProductViewModel>();
-            foreach (var p in order.ProductsOrderInfo)
-            {
-                OrderProductViewModel pvm = new OrderProductViewModel()
-                {
-                    ProductInfoID = p.ProductWithCompletedOrderID,
-                    ProductID = p.productID,
-                    Price = p.PricePayed,
-                    ProductName = (await _productRepository.GetByIDAsync(p.productID)).Name,
-                };
-                opvm.Add(pvm);
-            }
-            return Json(opvm, JsonRequestBehavior.AllowGet);
-        }
+       
         public async Task<ActionResult> Index()
         {
             List<CreateOrderViewModel> lovm = new List<CreateOrderViewModel>();

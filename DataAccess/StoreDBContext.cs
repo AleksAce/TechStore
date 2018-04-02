@@ -42,39 +42,42 @@ namespace DataAccess
         protected override void Seed(StoreDBContext context)
         {
 
-            Category category1 = new Category { Name = "Category1", Products = new List<Product>() };
-            Category category2 = new Category { Name = "Category2", Products = new List<Product>() };
-            Order order1 = new Order()
-            {
-                OrderDate = DateTime.Now
-            };
-            Order order2 = new Order()
-            {
-                OrderDate = DateTime.Now
-            };
-            Order order3 = new Order()
-            {
-                OrderDate = DateTime.Now
-            };
-
-            context.Orders.Add(order1);
-            context.Orders.Add(order2);
-            context.Orders.Add(order3);
-
-            Product product1;
-            for (int i = 0; i < 2; i++)
-            {
-                product1 = new Product { Name = "Product" + i.ToString()};
-                product1.Categories = new List<Category>() {
-                   category1,
-                   category2
-                 };
-               
-                context.Products.Add(product1);
-                
-            }
-            context.SaveChanges();
             base.Seed(context);
+            context.Products.Add(new Product()
+            {
+                ProductID = 1,
+                Name = "Product" + 1.ToString(),
+                Categories = new List<Category>() {
+                    new Category()
+                    {
+                    CategoryID = 1,
+                    Name = "Category1",
+                    },
+                },
+
+            });
+            context.Orders.Add(new Order()
+            {
+                OrderDate = DateTime.Now,
+                OrderID = 1,
+                customer = new Customer()
+                {
+                    CustomerID = 1,
+                    DateRegistered = DateTime.Now,
+                    UserName = "Customer1"
+                },
+                ProductsOrderInfo = new List<ProductWithCompletedOrder>()
+                {
+                    new ProductWithCompletedOrder(){
+                    productID = 1,
+                    PricePayed = 20,
+                    }
+                }
+            });
+
+
+
+            context.SaveChanges();
         }
 
     }

@@ -40,6 +40,9 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
+            <div>
+                Total: <p style="color:red" id="full-price"></p>
+            </div>
         </div>
     </div>
 }
@@ -59,6 +62,7 @@
 </div>
 <script type="text/javascript">
     var $ordersForCustomerDiv = $('#orders-for-customer');
+
     var appendingFactory = new htmlAppendingFactory();
         var itemsFactory = new storeFactory(appendingFactory);
     function ajaxSuccess(data, status) {
@@ -89,5 +93,7 @@
     };
      $(document).ready(function () {
          itemsFactory.GetOrdersPerCustomer($ordersForCustomerDiv,@Model.CustomerID);
-    });
+       
+         
+     });
 </script>

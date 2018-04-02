@@ -105,6 +105,13 @@ namespace DataAccess.Abstract
             }
 
         }
+
+        public  Task<List<Order>> GetAllOrdersPerProduct(int productID)
+        {
+            return context.ProductsOrdered.Where(p => p.productID == productID).Select(p=>p.order).Distinct().ToListAsync();
+           
+            
+        }
     }
     public interface IOrderRepository : IStoreRepository<Order>
     {
@@ -113,6 +120,7 @@ namespace DataAccess.Abstract
         Task RemoveProductFromOrder(int ProductInfoID, int OrderID);
         Task AddCustomerToOrderAsync(int orderID, int customerID);
         Task RemoveCustomerFromOrderAsync(int orderID, int customerID);
+        Task<List<Order>> GetAllOrdersPerProduct(int productID);
     }
 
 }

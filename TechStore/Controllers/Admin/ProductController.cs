@@ -23,8 +23,8 @@ namespace TechStore.Controllers.Admin
             _categoryRepository = categoryRepository;
             _orderRepository = orderRepository;
         }
+        //ORDERS
         
-        //CATEGORIES
         [HttpGet]
         public async Task<ActionResult> CategoriesPerProduct(int productID)
         {
@@ -36,6 +36,29 @@ namespace TechStore.Controllers.Admin
                 pcvm.Add(cvm);
             }
             return Json(pcvm, JsonRequestBehavior.AllowGet);
+        }
+        //CATEGORIES
+        [HttpGet]
+        public async Task<ActionResult> OrdersPerProduct(int productID)
+        {
+            Product product = await _productRepository.GetByIDAsync(productID);
+            List<ProductOrderViewModel> povm = new List<ProductOrderViewModel>();
+            List<Order> ordersForProduct =await _orderRepository.GetAllOrdersPerProduct(productID);
+            
+            foreach (var o in ordersForProduct)
+            {
+
+                if (o == null)
+                {
+                    throw new Exception("BUG for some reason. Fix T");
+                }
+                float price = o.ProductsOrderInfo.Sum(p => p.PricePayed);
+                ProductOrderViewModel cvm = new ProductOrderViewModel(o);
+                cvm.FullPrice = price;
+                povm.Add(cvm);
+                
+            }
+            return Json(povm, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public async Task<ActionResult> CategoriesNotInProduct(int productID)
