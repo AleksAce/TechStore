@@ -25,9 +25,9 @@ namespace DataAccess.Abstract
         }
         
         
-        public async Task<Product> GetProductByNameAsync(string name)
+        public  Task<Product> GetProductByNameAsync(string name)
         {
-                return await dbSet.Include(p => p.Orders).Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
+                return  dbSet.Include(p => p.Orders).Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
         }
         public override Task<List<Product>> GetAllAsync()
         {

@@ -56,7 +56,7 @@ namespace TechStore.Controllers.Admin
                 CustomerViewModel cvm = new CustomerViewModel(c);
                 lcvm.Add(cvm);
             }
-            return View(lcvm);
+            return View("Index",lcvm);
            
         }
 
@@ -64,8 +64,12 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Details(int id)
         {
             Customer customer = await _customerRepository.GetByIDAsync(id);
+            if(customer == null)
+            {
+                return View("Error");
+            }
             CustomerViewModel cvm = new CustomerViewModel(customer);
-            return View(cvm);
+            return View("Details",cvm);
         }
 
         // GET: Customer/Create
@@ -86,7 +90,7 @@ namespace TechStore.Controllers.Admin
                     if ((await _customerRepository.GetCustomerByNameAsync(model.UserName)) != null)
                     {
                         ViewBag.Error = "Username Already Exists, please try using another one";
-                        return View(model);
+                        return View("Create",model);
                     }
                     Customer customer = new Customer()
                     {
@@ -101,12 +105,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Create",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Create",model);
             }
         }
 
@@ -126,7 +130,11 @@ namespace TechStore.Controllers.Admin
             {
                 try
                 {
-                   
+                    if ((await _customerRepository.GetCustomerByNameAsync(model.UserName)) != null)
+                    {
+                        ViewBag.Error = "Username Already Exists, please try using another one";
+                        return View("Edit",model);
+                    }
                     Customer customer = await _customerRepository.GetByIDAsync(model.CustomerID);
                     customer.CustomerID = model.CustomerID;
                     customer.UserName = model.UserName;
@@ -138,12 +146,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Edit",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Edit",model);
             }
         }
         [HttpGet]
@@ -172,7 +180,7 @@ namespace TechStore.Controllers.Admin
                 Customer customer = await _customerRepository.GetByIDAsync(id);
                 _customerRepository.Delete(customer);
                 await _customerRepository.SaveAll();
-                return RedirectToAction("Index");
+                return View("Index");
             }
             catch
             {

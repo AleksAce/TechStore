@@ -41,17 +41,17 @@ namespace DataAccess.Abstract
             return  dbSet.ToListAsync();
         }
 
-        public virtual async Task<T> GetByIDAsync(int id)
+        public virtual Task<T> GetByIDAsync(int id)
         {
-            return await dbSet.FindAsync(id);
+            return  dbSet.FindAsync(id);
         }
        
 
 
 
-        public async Task SaveAll()
+        public Task SaveAll()
         {
-            await context.SaveChangesAsync();
+            return context.SaveChangesAsync();
         }
 
         

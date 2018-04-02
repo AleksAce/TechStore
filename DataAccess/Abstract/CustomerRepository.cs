@@ -15,9 +15,9 @@ namespace DataAccess.Abstract
     }
     public class CustomerRepository : StoreBaseRepository<Customer>, ICustomerRepository
     {
-        public async Task<Customer> GetCustomerByNameAsync(string UserName)
+        public Task<Customer> GetCustomerByNameAsync(string UserName)
         {
-            return await dbSet.SingleOrDefaultAsync(c => c.UserName == UserName);
+            return  dbSet.SingleOrDefaultAsync(c => c.UserName == UserName);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace TechStore.Controllers.Admin
                     CreateCategoryViewModel cvm = new CreateCategoryViewModel(cat);
                     createCategoryViewModels.Add(cvm);
                 }
-                return View(createCategoryViewModels);
+                return View("Index",createCategoryViewModels);
             }
             catch
             {
@@ -111,12 +111,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Create",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Create",model);
             }
         }
 
@@ -145,12 +145,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Edit",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Edit",model);
             }
         }
 
@@ -172,7 +172,7 @@ namespace TechStore.Controllers.Admin
                 Category cat = await _categoryRepository.GetByIDAsync(id);
                 _categoryRepository.Delete(cat);
                 await _categoryRepository.SaveAll();
-                return RedirectToAction("Index");
+                return View("Index");
             }
             catch
             {

@@ -103,15 +103,19 @@ namespace TechStore.Controllers.Admin
                 CreateOrderViewModel ovm = new CreateOrderViewModel(o);
                 lovm.Add(ovm);
             }
-            return View(lovm);
+            return View("Index",lovm);
         }
 
         // GET: Order/Details/5
         public async Task<ActionResult> Details(int id)
         {
             Order order = await _orderRepository.GetByIDAsync(id);
+            if(order == null)
+            {
+                return View("Error");
+            }
             CreateOrderViewModel ovm = new CreateOrderViewModel(order);
-            return View(ovm);
+            return View("Details",ovm);
         }
 
         // GET: Order/Create
@@ -134,7 +138,7 @@ namespace TechStore.Controllers.Admin
                     {
                         //Ensure there must be a customer
                         ViewBag.Error = "Customer does not Exist, Please Register the customer";
-                        return View(model);
+                        return View("Create",model);
                     }
 
                     Order order = new Order()
@@ -150,12 +154,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Create",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Create",model);
             }
         }
 
@@ -173,12 +177,13 @@ namespace TechStore.Controllers.Admin
         {
             try
             {
-                ViewBag.Error = "Customer does not Exist, Please register the customer";
+               
                 Customer customer = await _customerRepository.GetCustomerByNameAsync(model.CustomerName);
                 if (customer == null)
                 {
+                    ViewBag.Error = "Customer does not Exist, Please register the customer";
                     //Ensure there must be a customer
-                    return View(model);
+                    return View("Edit",model);
                 }
                 Order order =await  _orderRepository.GetByIDAsync(model.OrderID);
                 //order.
@@ -189,7 +194,7 @@ namespace TechStore.Controllers.Admin
             }
             catch
             {
-                return View(model);
+                return View("Edit",model);
             }
         }
 
@@ -211,7 +216,7 @@ namespace TechStore.Controllers.Admin
                 Order order = await _orderRepository.GetByIDAsync(id);
                 _orderRepository.Delete(order);
                 await _orderRepository.SaveAll();
-                return RedirectToAction("Index");
+                return View("Index");
             }
             catch
             {

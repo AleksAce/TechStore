@@ -56,9 +56,9 @@ namespace DataAccess.Abstract
             return await dbSet.Include(x => x.Products).SingleOrDefaultAsync(c=>c.CategoryID == id);
         }
 
-        public async Task<Category> GetByNameAsync(string name)
+        public  Task<Category> GetByNameAsync(string name)
         {
-            return await dbSet.Include(c=>c.Products).SingleOrDefaultAsync(c => c.Name == name);
+            return  dbSet.Include(c=>c.Products).SingleOrDefaultAsync(c => c.Name == name);
         }
 
        

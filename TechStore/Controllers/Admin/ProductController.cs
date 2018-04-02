@@ -44,10 +44,10 @@ namespace TechStore.Controllers.Admin
             List<Category> categoriesInproduct = product.Categories;
             List<Category> allCategories = await _categoryRepository.GetAllAsync();
 
-            List<Category> productsNotInCategory = allCategories.Where(c => c.Products == null || (c.Products.ToList().Find(p => p.ProductID == productID)) == null).ToList();
+            List<Category> categoriesNotInproduct = allCategories.Where(c => c.Products == null || (c.Products.ToList().Find(p => p.ProductID == productID)) == null).ToList();
 
             List<ProductCategoryViewModel> pcvm = new List<ProductCategoryViewModel>();
-            foreach (var c in productsNotInCategory)
+            foreach (var c in categoriesNotInproduct)
             {
                 ProductCategoryViewModel cvm = new ProductCategoryViewModel(c);
                 pcvm.Add(cvm);
@@ -130,7 +130,7 @@ namespace TechStore.Controllers.Admin
             if (product != null)
             {
                 CreateProductViewModel createProductViewModel = new CreateProductViewModel(product);
-                return View(createProductViewModel);
+                return View("Details",createProductViewModel);
             }
             else
             {
@@ -226,12 +226,12 @@ namespace TechStore.Controllers.Admin
                 }
                 catch
                 {
-                    return View(model);
+                    return View("Edit",model);
                 }
             }
             else
             {
-                return View(model);
+                return View("Edit",model);
             }
         }
 
@@ -255,7 +255,7 @@ namespace TechStore.Controllers.Admin
                 Product product = await _productRepository.GetByIDAsync(id);
                 _productRepository.Delete(product);
                 await _productRepository.SaveAll();
-                return RedirectToAction("Index");
+                return View("Index");
             }
             catch
             {
