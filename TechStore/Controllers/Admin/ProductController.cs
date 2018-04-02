@@ -42,7 +42,7 @@ namespace TechStore.Controllers.Admin
         {
             Product product = await _productRepository.GetByIDAsync(productID);
             List<Category> categoriesInproduct = product.Categories;
-            List<Category> allCategories = await _categoryRepository.GetAll();
+            List<Category> allCategories = await _categoryRepository.GetAllAsync();
 
             List<Category> productsNotInCategory = allCategories.Where(c => c.Products == null || (c.Products.ToList().Find(p => p.ProductID == productID)) == null).ToList();
 
@@ -112,7 +112,7 @@ namespace TechStore.Controllers.Admin
         // GET: Product
         public async Task<ActionResult> Index()
         {
-            List<Product> products = await _productRepository.GetAll();
+            List<Product> products = await _productRepository.GetAllAsync();
             List<CreateProductViewModel> createProductViewModels = new List<CreateProductViewModel>();
             foreach(var p in products)
             {

@@ -11,7 +11,7 @@ namespace TechStore.Controllers
 {
     public class StoreController : Controller
     {
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             ViewBag.Title = "Ace Tech Store";
             return View();

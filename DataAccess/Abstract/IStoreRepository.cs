@@ -13,7 +13,7 @@ namespace DataAccess.Abstract
         void Delete(T entity);
         
         Task<T> GetByIDAsync(int id);
-        Task<List<T>> GetAll();
+        Task<List<T>> GetAllAsync();
         Task SaveAll();
     }
 }

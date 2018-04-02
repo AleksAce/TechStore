@@ -50,7 +50,7 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Index()
         {
             List<CustomerViewModel> lcvm = new List<CustomerViewModel>();
-            List<Customer> customers = await _customerRepository.GetAll();
+            List<Customer> customers = await _customerRepository.GetAllAsync();
             foreach (var c in customers)
             {
                 CustomerViewModel cvm = new CustomerViewModel(c);

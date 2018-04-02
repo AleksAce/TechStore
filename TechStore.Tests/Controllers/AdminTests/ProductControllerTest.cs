@@ -16,11 +16,14 @@ namespace TechStore.Tests.Controllers
     {
          Mock<IProductRepository> _productRepository = new Mock<IProductRepository>();
          Mock<ICategoryRepository> _categoryRepository = new Mock<ICategoryRepository>();
+        Mock<IOrderRepository> _orderRepository = new Mock<IOrderRepository>();
         List<Product> FakeProducts = new List<Product> { new Product() { ProductID = 1,Name = "prod1"},
                                                          new Product() { ProductID = 2,Name = "prod2"} };
 
         List<Category> FakeCategories = new List<Category> { new Category() { CategoryID = 1, Name = "Cat1" },
                                                              new Category() { CategoryID = 2, Name = "Cat2" } };
+        List<Order> FakeOrders = new List<Order> { new Order() { OrderID = 1, OrderDate= System.DateTime.Now },
+                                                   new Order() { OrderID = 2, OrderDate= System.DateTime.Now } };
         CreateProductViewModel TestCVM = new CreateProductViewModel()
         {
             Name = null,
@@ -29,11 +32,11 @@ namespace TechStore.Tests.Controllers
         };
         public ProductControllerTests()
         {
-                _productRepository.Setup(r => r.GetAll()).ReturnsAsync(FakeProducts);
+                _productRepository.Setup(r => r.GetAllAsync()).ReturnsAsync(FakeProducts);
             _productRepository.Setup(r => r.GetByIDAsync(1)).ReturnsAsync(FakeProducts[0]);
             _productRepository.Setup(r => r.GetByIDAsync(2)).ReturnsAsync(FakeProducts[1]);
 
-            _categoryRepository.Setup(c => c.GetAll()).ReturnsAsync(FakeCategories);
+            _categoryRepository.Setup(c => c.GetAllAsync()).ReturnsAsync(FakeCategories);
             _categoryRepository.Setup(r => r.GetByIDAsync(1)).ReturnsAsync(FakeCategories[0]);
             _categoryRepository.Setup(r => r.GetByIDAsync(2)).ReturnsAsync(FakeCategories[1]);
         }
@@ -41,7 +44,7 @@ namespace TechStore.Tests.Controllers
         public async Task Index_ReturnsExpectedResult()
         {               
             // Arrange
-            ProductController controller = new ProductController(_productRepository.Object,_categoryRepository.Object);
+            ProductController controller = new ProductController(_productRepository.Object,_categoryRepository.Object, _orderRepository.Object);
         
             // Act
             ViewResult result = await controller.Index() as ViewResult;
@@ -60,7 +63,7 @@ namespace TechStore.Tests.Controllers
         public async Task Details_ReturnsExpectedResult(int id)
         {
             // Arrange
-            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object);
+            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object, _orderRepository.Object);
 
             // Act
             ViewResult result = await controller.Details(id) as ViewResult;
@@ -77,7 +80,7 @@ namespace TechStore.Tests.Controllers
         public async Task Details_GivenWrongID_ReturnsErrorPage(int id)
         {
             // Arrange
-            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object);
+            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object, _orderRepository.Object);
 
             // Act
             ViewResult result = await controller.Details(id) as ViewResult;
@@ -91,7 +94,7 @@ namespace TechStore.Tests.Controllers
         public async Task Create_OnPost_WithModelStateInvalid_ReturnsCreateViewWithSameData()
         {
             // Arrange
-            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object);
+            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object, _orderRepository.Object);
             controller.ModelState.AddModelError("Required", "Name Parameter Required");
             // Act
             ViewResult result = await controller.Create(TestCVM) as ViewResult;

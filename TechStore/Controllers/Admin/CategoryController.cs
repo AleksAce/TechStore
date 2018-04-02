@@ -37,7 +37,7 @@ namespace TechStore.Controllers.Admin
         {
             Category category = await _categoryRepository.GetByIDAsync(categoryID);
             List<Product> productsInCategory = category.Products;
-            List<Product> allProducts = await _productRepository.GetAll();
+            List<Product> allProducts = await _productRepository.GetAllAsync();
             
             List<Product> productsNotInCategory = allProducts.Where(p=> p.Categories == null || (p.Categories.ToList().Find(c=>c.CategoryID == categoryID)) == null).ToList();
             
@@ -55,7 +55,7 @@ namespace TechStore.Controllers.Admin
             try
             {
                 List<CreateCategoryViewModel> createCategoryViewModels = new List<CreateCategoryViewModel>();
-                List<Category> categories = await _categoryRepository.GetAll ();
+                List<Category> categories = await _categoryRepository.GetAllAsync();
                 foreach (var cat in categories)
                 {
                     CreateCategoryViewModel cvm = new CreateCategoryViewModel(cat);

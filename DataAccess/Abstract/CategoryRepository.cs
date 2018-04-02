@@ -15,21 +15,19 @@ namespace DataAccess.Abstract
         {
 
         }
-        public override async Task<List<Category>> GetAll()
+        public override Task<List<Category>> GetAllAsync()
         {
             List<Category> categories = new List<Category>();
 
             try
             {
-                categories= dbSet.ToList<Category>();
-
-            }
-            catch(Exception ex)
+                return  dbSet.ToListAsync();
+            }catch(Exception ex)
             {
-                //Something went wrong
-                Console.WriteLine(ex.Message);
+                return null;
             }
-            return categories;
+            
+            
         }
 
         public async Task<List<string>> GetAllCategoryNames()
@@ -38,7 +36,7 @@ namespace DataAccess.Abstract
             try
             {
                 //START FROM EHRE THIS DOESNT WORK
-                List<Category> categories = await this.GetAll();
+                List<Category> categories = await this.GetAllAsync();
                 foreach (var cat in categories)
                 {
                     categorynames.Add(cat.Name);

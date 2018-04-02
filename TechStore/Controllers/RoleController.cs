@@ -47,7 +47,7 @@ namespace TechStore.Controllers
             }
         }
         // GET: Role
-        public async Task<ActionResult> Index()
+        public  ActionResult Index()
         {
             
             List<RoleViewModel> list = new List<RoleViewModel>();

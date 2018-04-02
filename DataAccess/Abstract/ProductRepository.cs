@@ -29,10 +29,10 @@ namespace DataAccess.Abstract
         {
                 return await dbSet.Include(p => p.Orders).Include(p => p.Categories).SingleOrDefaultAsync(p => p.Name == name);
         }
-        public override async Task<List<Product>> GetAll()
+        public override Task<List<Product>> GetAllAsync()
         {
-            List<Product> products = dbSet.Include(p => p.Categories).Include(p=>p.Orders).ToList();
-            return products;
+           return dbSet.Include(p => p.Categories).Include(p=>p.Orders).ToListAsync();
+           
             
         }
         public async override Task<Product> GetByIDAsync(int id)

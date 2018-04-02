@@ -75,10 +75,10 @@ namespace DataAccess.Abstract
 
         }
 
-        public override async Task<List<Order>> GetAll()
+        public override Task<List<Order>> GetAllAsync()
         {
-            List<Order> orders =  dbSet.Include(o => o.ProductsOrdered).ToList();
-            return orders;
+            return dbSet.Include(o => o.ProductsOrdered).ToListAsync();
+          
 
         }
         public async override Task<Order> GetByIDAsync(int id)

@@ -26,7 +26,7 @@ namespace TechStore.Controllers
             try
             {
             
-            List<Product> products = await _productRepository.GetAll();
+            List<Product> products = await _productRepository.GetAllAsync();
 
             List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
             foreach (var p in products)

@@ -40,7 +40,7 @@ namespace TechStore.Controllers.Admin
         {
             Order order = await _orderRepository.GetByIDAsync(orderID);
             List<Product> productsInOrder = order.ProductsOrdered;
-            List<Product> allProducts = await _productRepository.GetAll();
+            List<Product> allProducts = await _productRepository.GetAllAsync();
 
             List<Product> productsNotInOrder = allProducts.Where(p => p.Orders == null || (p.Orders.ToList().Find(o => o.OrderID == orderID)) == null).ToList();
 
@@ -97,7 +97,7 @@ namespace TechStore.Controllers.Admin
         public async Task<ActionResult> Index()
         {
             List<CreateOrderViewModel> lovm = new List<CreateOrderViewModel>();
-            List<Order> orders = await _orderRepository.GetAll();
+            List<Order> orders = await _orderRepository.GetAllAsync();
             foreach(var o in orders)
             {
                 CreateOrderViewModel ovm = new CreateOrderViewModel(o);
