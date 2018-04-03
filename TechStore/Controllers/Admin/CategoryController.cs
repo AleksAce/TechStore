@@ -172,7 +172,7 @@ namespace TechStore.Controllers.Admin
                 Category cat = await _categoryRepository.GetByIDAsync(id);
                 _categoryRepository.Delete(cat);
                 await _categoryRepository.SaveAll();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {

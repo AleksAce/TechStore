@@ -28,14 +28,14 @@ namespace Models
 
         public virtual List<Category> Categories { get; set; }
 
-
         public Product()
         {
             DateAdded = DateTime.Now;
             DateUpdated = DateTime.Now;
-     
-
         }
+        public bool isForMainPage { get; set; }
+        //Used for sorting on the main page
+        public DateTime? addedToMainPageDate { get; set; }
 
       
     }

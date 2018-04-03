@@ -214,7 +214,7 @@ namespace TechStore.Controllers.Admin
                 Order order = await _orderRepository.GetByIDAsync(id);
                 _orderRepository.Delete(order);
                 await _orderRepository.SaveAll();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {

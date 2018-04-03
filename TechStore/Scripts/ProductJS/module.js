@@ -6,8 +6,8 @@ storeApp.config(function ($routeProvider) {
     $routeProvider.caseInsensitiveMatch = true;
 
     $routeProvider.when("/", {
-        redirectTo:"/Products"
-    }).when("/Products", {
+        redirectTo:"/HomePage"
+    }).when("/ProductList", {
 
     templateUrl: "../Templates/ProductTemplates/ProductList.html",
     controller: "productController",
@@ -18,10 +18,10 @@ storeApp.config(function ($routeProvider) {
         templateUrl: "../Templates/ProductTemplates/SingleProductDetails.html",
         controller: "productController"
 
-    }).when("/Product2", {
+    }).when("/HomePage", {
 
-    templateUrl: "../Templates/ProductTemplates/Product2.html",
-    controller: "product2Controller"
+    templateUrl: "../Templates/ProductTemplates/HomePage.html",
+    controller: "productController"
 
     }).otherwise({
         redirectTo: "/"

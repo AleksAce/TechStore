@@ -174,19 +174,19 @@ namespace TechStore.Controllers.Admin
                         Price = model.Price,
                         Description = model.Description,
                         IsInStock = true,
+                        isForMainPage = model.isForMainpage,
+                        addedToMainPageDate = null,
                         LeftInStock = model.LeftInStock,
                         Manufacturer = model.Manufacturer,
                     };
+                    if (model.isForMainpage)
+                    {
+                        product.addedToMainPageDate = DateTime.Now;
+                    }
                     _productRepository.Add(product);
                     await _productRepository.SaveAll();
-                    foreach (var cat in model.Categories)
-                    {
-                        if (!product.Categories.Contains(cat))
-                        {
-                            await _productRepository.AddProductToCategoryAsync(product.Name, cat.Name);
-                        }
-                    }
-                    await _productRepository.SaveAll();
+                  
+               
                     return RedirectToAction("Index");
                 }
                 catch(Exception ex)
@@ -223,7 +223,13 @@ namespace TechStore.Controllers.Admin
                     product.PhotoURL = model.PhotoURL;
                     product.Price = model.Price;
                     product.Description = model.Description;
-                    product.IsInStock = true;
+                    product.IsInStock = model.IsInStock;
+                    product.addedToMainPageDate = model.addedToMainPageDate;
+                    if(!product.isForMainPage && model.isForMainpage)
+                    {
+                        product.addedToMainPageDate = DateTime.Now;
+                    }
+                    product.isForMainPage = model.isForMainpage;
                     product.LeftInStock = model.LeftInStock;
                     product.Manufacturer = model.Manufacturer;
                     foreach (var cat in model.Categories)
@@ -267,7 +273,7 @@ namespace TechStore.Controllers.Admin
                 Product product = await _productRepository.GetByIDAsync(id);
                 _productRepository.Delete(product);
                 await _productRepository.SaveAll();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {

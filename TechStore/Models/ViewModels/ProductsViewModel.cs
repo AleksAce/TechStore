@@ -17,29 +17,23 @@ namespace TechStore.Models.ViewModels
             Name = product.Name;
             LeftInStock = product.LeftInStock;
             Description = product.Description;
-            //Note: if no category defined use Not Defined
-            categories = product.Categories;
             ProductID = product.ProductID;
             AvailableInStockTime = product.AvailableInStockTime;
             Price = product.Price;
+
            
         }
         public int ProductID { get; set; }
         public int LeftInStock { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
+       
         [DataType(DataType.Currency)]
         public float Price { get; set; }
         [Display(Name ="Days Left")]
         public int AvailableInStockTime { get; set; }
 
-        //Categories
-        public List<Category> categories { get; set; }
-
-
-
-
+       
 
     }
 }

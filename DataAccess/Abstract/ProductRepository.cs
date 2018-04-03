@@ -15,6 +15,7 @@ namespace DataAccess.Abstract
         Task AddProductToCategoryAsync(int productID, int categoryID);
         Task RemoveProductFromCategoryAsync(int productID, int categoryID);
         Task AddProductToCategoryAsync(string productName, string categoryName);
+        Task<List<Product>> GetMainPageProducts();
     }
     //StoreBase Repository Implements the IStoreRepository Interface, so no worries
     public class ProductRepository : StoreBaseRepository<Product>  , IProductRepository
@@ -84,6 +85,11 @@ namespace DataAccess.Abstract
                 //Could not Find Product or Category
                 return;
             }
+        }
+
+        public Task<List<Product>> GetMainPageProducts()
+        {
+           return dbSet.Where(p => p.isForMainPage == true).ToListAsync();
         }
     }
 }

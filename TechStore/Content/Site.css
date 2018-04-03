@@ -10,7 +10,10 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-
+.check-box {
+    width: 20px;
+    height: 20px;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

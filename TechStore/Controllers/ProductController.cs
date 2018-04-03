@@ -19,7 +19,31 @@ namespace TechStore.Controllers
         {
             _productRepository = productRepository;
 
-        } 
+        }
+        [HttpGet]
+        [Route("api/Product/GetForMainpage")]
+        public async Task<HttpResponseMessage> Get(bool forMainPage = false)
+        {
+            try
+            {
+
+                List<Product> products = await _productRepository.GetMainPageProducts();
+
+                List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
+                foreach (var p in products)
+                {
+                    ProductsViewModel pvm = new ProductsViewModel(p);
+                    productsViewModelList.Add(pvm);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, productsViewModelList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
+            }
+
+        }
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {

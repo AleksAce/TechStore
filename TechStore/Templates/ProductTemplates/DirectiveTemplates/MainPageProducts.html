@@ -1,0 +1,24 @@
+﻿<!--NOTE: The spinner needs to be here since it's ng-show value is changed in it's directive-->
+<!--NOTE: Since a directive is linked once. It's either loading or not =)-->
+<div ng-show="productsLoading">
+    <div class="fa-3x" id="products-loader">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+</div>
+<ul ng-repeat="product in products">
+    <li>
+        <h2>
+            <a href="#!Products/{{product.ProductID}}">{{product.Name}}</a>
+        </h2>
+        <div>
+            Description: {{product.Description}}
+        </div>
+        <div>
+            LeftInStock: {{product.LeftInStock}}
+        </div>
+        <div>
+            Cost: {{product.Price | currency}}
+        </div>
+
+    </li>
+</ul>

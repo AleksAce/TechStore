@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201804020948453_Removed-ProductsOrdered-From-Order.Designer.cs">
       <DependentUpon>201804020948453_Removed-ProductsOrdered-From-Order.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804031022330_Added-MainpageBoolandDateTime.cs" />
+    <Compile Include="Migrations\201804031022330_Added-MainpageBoolandDateTime.Designer.cs">
+      <DependentUpon>201804031022330_Added-MainpageBoolandDateTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804020948453_Removed-ProductsOrdered-From-Order.resx">
       <DependentUpon>201804020948453_Removed-ProductsOrdered-From-Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804031022330_Added-MainpageBoolandDateTime.resx">
+      <DependentUpon>201804031022330_Added-MainpageBoolandDateTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

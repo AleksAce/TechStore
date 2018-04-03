@@ -183,7 +183,7 @@ namespace TechStore.Controllers.Admin
                 Customer customer = await _customerRepository.GetByIDAsync(id);
                 _customerRepository.Delete(customer);
                 await _customerRepository.SaveAll();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {

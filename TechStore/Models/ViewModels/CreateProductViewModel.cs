@@ -31,6 +31,8 @@ namespace TechStore.Models.ViewModels
             DateAdded = product.DateAdded;
             DateUpdated = product.DateUpdated;
             Categories = product.Categories;
+            isForMainpage = product.isForMainPage;
+            addedToMainPageDate = product.addedToMainPageDate;
 
         }
 
@@ -56,5 +58,8 @@ namespace TechStore.Models.ViewModels
 
         public List<Category> Categories { get; set; }
         public List<Order> orders = new List<Order>();
+
+        public bool isForMainpage { get; set; }
+        public DateTime? addedToMainPageDate { get; set; }
     }
 }

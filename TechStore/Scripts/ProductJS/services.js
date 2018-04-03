@@ -2,10 +2,20 @@
     var factory = {};
     //Things are loading, set this to false when loaded.
     factory.productsLoading = true;
+    factory.getAllProductsForMainPage = function () {
+        factory.productsLoading = true;
+        return $http({
+            method: "Get",
+            url: "../api/Product/GetForMainPage",
+            params:{
+                forMainPage: true,
+            },
+        });
+    };
     factory.getAllProducts = function () {
         factory.productsLoading = true;
         return  $http({
-            method: "GET",
+            method: "Get",
             url: "../api/Product"
         });
     };
@@ -36,6 +46,28 @@ storeApp.directive("productDetails", function (productFactory, $routeParams) {
                     console.log("ERROR: " + error);
                     productFactory.productsLoading = false;
                     scope.productsLoading = productFactory.productsLoading; 
+                });
+        },
+    }
+});
+storeApp.directive("mainPageProducts", function (productFactory) {
+    return {
+        restrict: "E",
+        templateUrl: "../Templates/ProductTemplates/DirectiveTemplates/MainPageProducts.html",
+        link: function (scope, elem, attr) {
+            //If not supplied by routeparams.. do the default first ID;
+            scope.productsLoading = productFactory.productsLoading;
+            productFactory.getAllProductsForMainPage().then(
+                function (response) {
+
+                    scope.products = response.data;
+                    productFactory.productsLoading = false;
+                    scope.productsLoading = productFactory.productsLoading;
+                },
+                function (err) {
+                    console.log("ERROR: " + err);
+                    productFactory.productsLoading = false;
+                    scope.productsLoading = productFactory.productsLoading;
                 });
         },
     }

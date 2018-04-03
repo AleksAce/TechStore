@@ -118,17 +118,7 @@ namespace TechStore.Tests.Controllers
             Assert.IsTrue("Edit" == result.ViewName);
             Assert.IsTrue(resultCVM.Description == TestCVM.Description);
         }
-        [Test]
-        public async Task DeleteOnSuccess_ReturnsIndexView()
-        {
-            // Arrange
-            ProductController controller = new ProductController(_productRepository.Object, _categoryRepository.Object, _orderRepository.Object);
-            // Act
-            ViewResult result = await controller.Delete(1, new FormCollection()) as ViewResult;
-
-            //Assert
-            Assert.IsTrue("Index" == result.ViewName);
-        }
+      
         [Test]
         public async Task CategoriesPerProduct_Returns_ExpectedProducts()
         {
