@@ -5,7 +5,8 @@
         <i class="fas fa-spinner fa-spin"></i>
     </div>
 </div>
-<ul ng-repeat="product in products">
+<input type="text" ng-model="search.Name" />
+<ul ng-repeat="product in products | filter:search">
     <li>
         <h2>
             <a href="#!Products/{{product.ProductID}}">{{product.Name}}</a>

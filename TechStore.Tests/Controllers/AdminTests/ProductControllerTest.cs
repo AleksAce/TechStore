@@ -120,7 +120,7 @@ namespace TechStore.Tests.Controllers
         }
       
         [Test]
-        public async Task CategoriesPerProduct_Returns_ExpectedProducts()
+        public async Task CategoriesPerProduct_Called_ReturnsExpectedCategories()
         {
             // Arrange
             Category category1 = new Category() { CategoryID = 1, Name = "cat1" };
@@ -143,7 +143,7 @@ namespace TechStore.Tests.Controllers
 
         }
         [Test]
-        public async Task ProductsNotInOrder_Returns_ExpectedProducts()
+        public async Task CategoriesNotInproduct_Called_ReturnsExpectedCategoriesWhichAreNotForProduct()
         {
             // Arrange
             //Setup their relationship
@@ -153,6 +153,7 @@ namespace TechStore.Tests.Controllers
             Category category3 = new Category() { CategoryID = 3, Name = "cat3", Products = new List<Product>() {  } };
             fakeProduct1 = new Product() {ProductID = 1, Categories = new List<Category>() { category1, category2 } };
             List<Category> fakeCategoryList = new List<Category>() { category1, category2, category3 };
+
 
             _productRepository.Setup(p => p.GetByIDAsync(1)).ReturnsAsync(fakeProduct1);
             _categoryRepository.Setup(p => p.GetAllAsync()).ReturnsAsync(fakeCategoryList);

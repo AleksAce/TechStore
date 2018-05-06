@@ -19,6 +19,17 @@
             url: "../api/Product"
         });
     };
+    factory.getProductChunk = function (index) {
+        factory.productsLoading = true;
+        return $http({
+            method: "Get",
+            url: "../api/Product/ProductChunk",
+            params: {
+                index: index,
+                numItems: 2,
+            },
+        });
+    };
     factory.getSingleProduct = function (id) {  
         factory.productsLoading = true;
         return $http({
@@ -78,8 +89,10 @@ storeApp.directive("productList", function (productFactory) {
         templateUrl: "../Templates/ProductTemplates/DirectiveTemplates/AllProducts.html",
         link: function (scope, elem, attr) {
             //If not supplied by routeparams.. do the default first ID;
+            var indexOfProducts = attr.productindex;
+            console.log(attr);
             scope.productsLoading = productFactory.productsLoading; 
-            productFactory.getAllProducts().then(
+            productFactory.getProductChunk(indexOfProducts).then(
                 function (response) {
                  
                     scope.products = response.data;
