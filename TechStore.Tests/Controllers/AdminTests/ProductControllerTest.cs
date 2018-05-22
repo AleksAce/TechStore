@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DataAccess.Abstract;
@@ -58,7 +59,8 @@ namespace TechStore.Tests.Controllers
             Assert.IsTrue("Index" == result.ViewName);
 
         }
-    
+       
+
         [TestCase(2)]
         public async Task Details_ReturnsExpectedResult(int id)
         {

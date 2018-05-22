@@ -236,7 +236,14 @@ namespace TechStore.Controllers.Admin
                     {
                         if (!product.Categories.Contains(cat))
                         {
-                            await _productRepository.AddProductToCategoryAsync(product.Name, cat.Name);
+                            try
+                            {
+                                await _productRepository.AddProductToCategoryAsync(product.Name, cat.Name);
+                            }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
                     await _productRepository.SaveAll();
@@ -269,7 +276,6 @@ namespace TechStore.Controllers.Admin
         {
             try
             {
-                // TODO: Add delete logic here
                 Product product = await _productRepository.GetByIDAsync(id);
                 _productRepository.Delete(product);
                 await _productRepository.SaveAll();

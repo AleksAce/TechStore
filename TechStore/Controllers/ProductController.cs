@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,7 +15,7 @@ namespace TechStore.Controllers
     public class ProductController : ApiController
     {
         IProductRepository _productRepository;
-
+      
         public ProductController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
@@ -27,6 +28,7 @@ namespace TechStore.Controllers
             try
             {
 
+               
                 List<Product> prods = await _productRepository.GetAllAsync();
                 List<Product> products = prods.Skip(index).Take(numItems).ToList();
                 List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
@@ -73,9 +75,7 @@ namespace TechStore.Controllers
         {
             try
             {
-            
             List<Product> products = await _productRepository.GetAllAsync();
-
             List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
             foreach (var p in products)
             {

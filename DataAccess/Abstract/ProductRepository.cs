@@ -43,48 +43,27 @@ namespace DataAccess.Abstract
 
         public async Task AddProductToCategoryAsync(int productID, int categoryID)
         {
-            try
-            {
                 Product prod = await GetByIDAsync(productID);
                 Category cat = await context.Categories.FindAsync(categoryID);
                 prod.Categories.Add(cat);
-                //cat.Products.Add(prod);
-            }catch(Exception ex)
-            {
-                //Could not Find Product or Category
-                return;
-            }
+           
         }
 
         public async Task RemoveProductFromCategoryAsync(int productID, int categoryID)
         {
-            try
-            {
+           
                 Product prod = await GetByIDAsync(productID);
                 Category cat = await context.Categories.FindAsync(categoryID);
                 prod.Categories.Remove(cat);
                 
-            }catch(Exception ex)
-            {
-                //Could not find product or category
-                return;
-            }
         }
 
         public async Task AddProductToCategoryAsync(string productName, string categoryName)
         {
-            try
-            {
+            
                 Product prod = await GetProductByNameAsync(productName);
                 Category cat = await context.Categories.SingleOrDefaultAsync(c=>c.Name == categoryName);
                 prod.Categories.Add(cat);
-                //cat.Products.Add(prod);
-            }
-            catch (Exception ex)
-            {
-                //Could not Find Product or Category
-                return;
-            }
         }
 
         public Task<List<Product>> GetMainPageProducts()
