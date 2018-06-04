@@ -69,35 +69,15 @@ namespace TechStore.Controllers
 
         }
         [HttpGet]
-        public async Task<HttpResponseMessage> Get()
-        {
-            try
-            {
-            
-            List<Product> products = await _productRepository.GetAllAsync();
-
-            List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
-            foreach (var p in products)
-            {
-                    ProductsViewModel pvm = new ProductsViewModel(p);
-                    productsViewModelList.Add(pvm);
-            }
-                
-               return  Request.CreateResponse(HttpStatusCode.OK, productsViewModelList);
-            }
-            catch(Exception ex)
-            {
-               return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Could not fetch products");
-            }
-            
-        }
-        [HttpGet]
         public async Task<HttpResponseMessage> Get(int id)
         {
             try
             {
                 Product product = await _productRepository.GetByIDAsync(id);
-                
+                if(product == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, new ProductsViewModel(product));
             }
             catch
