@@ -28,7 +28,7 @@ namespace TechStore.Controllers
             {
 
                 List<Product> prods = await _productRepository.GetAllAsync();
-                List<Product> products = prods.Skip(index).Take(numItems).ToList();
+                List<Product> products = prods.Skip(index*numItems).Take(numItems).ToList();
                 List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
                 foreach (var p in products)
                 {

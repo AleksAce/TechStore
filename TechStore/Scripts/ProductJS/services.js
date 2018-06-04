@@ -26,7 +26,7 @@
             url: "../api/Product/ProductChunk",
             params: {
                 index: index,
-                numItems: 2,
+                numItems: 10,
             },
         });
     };

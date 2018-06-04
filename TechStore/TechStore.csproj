@@ -1140,7 +1140,6 @@
     <Content Include="Templates\ProductTemplates\DirectiveTemplates\AllProducts.html" />
     <Content Include="Templates\ProductTemplates\DirectiveTemplates\MainPageProducts.html" />
     <Content Include="Templates\ProductTemplates\HomePage.html" />
-    <Content Include="Templates\ProductTemplates\Product2.html" />
     <Content Include="Templates\ProductTemplates\DirectiveTemplates\ProductDetails.html" />
     <Content Include="Templates\ProductTemplates\ProductList.html" />
     <Content Include="Templates\ProductTemplates\SingleProductDetails.html" />
