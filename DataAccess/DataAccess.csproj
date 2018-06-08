@@ -47,12 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\CategoryRepository.cs" />
-    <Compile Include="Abstract\CustomerRepository.cs" />
+    <Compile Include="Abstract\ICategoryRepository.cs" />
+    <Compile Include="Abstract\ICustomerRepository.cs" />
+    <Compile Include="Abstract\IOrderRepository.cs" />
+    <Compile Include="Abstract\IProductRepository.cs" />
+    <Compile Include="Abstract\IProductWithCompletedOrderRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Abstract\IStoreRepository.cs" />
-    <Compile Include="Abstract\OrderRepository.cs" />
-    <Compile Include="Abstract\ProductRepository.cs" />
-    <Compile Include="Abstract\ProductWithCompletedOrderRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\ProductWithCompletedOrderRepository.cs" />
     <Compile Include="Abstract\StoreBaseRepository.cs" />
     <Compile Include="Migrations\201803261737001_InitialCreate.cs" />
     <Compile Include="Migrations\201803261737001_InitialCreate.Designer.cs">
@@ -91,9 +96,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201803261737001_InitialCreate.resx">
       <DependentUpon>201803261737001_InitialCreate.cs</DependentUpon>

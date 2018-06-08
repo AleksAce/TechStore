@@ -5,14 +5,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Abstract;
 
-namespace DataAccess.Abstract
+namespace DataAccess.Repositories
 {
-    public interface ICustomerRepository: IStoreRepository<Customer>
-    {
-        Task<Customer> GetCustomerByNameAsync(string UserName);
-      
-    }
     public class CustomerRepository : StoreBaseRepository<Customer>, ICustomerRepository
     {
         public Task<Customer> GetCustomerByNameAsync(string UserName)

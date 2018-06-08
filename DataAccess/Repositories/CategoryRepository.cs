@@ -5,8 +5,9 @@ using System.Linq;
 using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Abstract;
 
-namespace DataAccess.Abstract
+namespace DataAccess.Repositories
 {
     public class CategoryRepository : StoreBaseRepository<Category>, ICategoryRepository
     {
@@ -64,12 +65,5 @@ namespace DataAccess.Abstract
        
         
     }
-    //Specific to categories
-    public interface ICategoryRepository : IStoreRepository<Category>
-    {
-        
-        Task<List<string>> GetAllCategoryNames();
-        Task<Category> GetByNameAsync(string name);
-
-    }
+   
 }
