@@ -1,11 +1,14 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<div ng-show="productsLoading" style="position: absolute">
+    <div class="fa-3x" id="products-loader">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+</div>
+<div id="searcher">
+    <!--TODO: make this make a special call with a Q parameter to the back-end-->
+    <input type="text" ng-model="search.Name" />
+</div>
+<div id="allProducts">
     <!-- Smooth scrolling here.. make this take 10 items-->
-    <product-list productIndex="0"></product-list>
-</body>
-</html>
+    <product-list></product-list>
+</div>
+

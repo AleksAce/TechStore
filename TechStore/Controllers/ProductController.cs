@@ -22,13 +22,22 @@ namespace TechStore.Controllers
         }
         [HttpGet]
         [Route("api/Product/ProductChunk")]
-        public async Task<HttpResponseMessage> Get(int index, int numItems)
+        public async Task<HttpResponseMessage> Get(int index, int numItems, string q = "All")
         {
             try
             {
 
                 List<Product> prods = await _productRepository.GetAllAsync();
-                List<Product> products = prods.Skip(index*numItems).Take(numItems).ToList();
+                List<Product> products = new List<Product>();
+                if (q == "All")
+                {
+                    products = prods.Skip(index * numItems).Take(numItems).ToList();
+                }
+                else
+                {
+                    products = prods.Where(p=>p.Name == q).Skip(index * numItems).Take(numItems).ToList();
+                }
+
                 List<ProductsViewModel> productsViewModelList = new List<ProductsViewModel>();
                 foreach (var p in products)
                 {

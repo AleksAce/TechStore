@@ -1,8 +1,3 @@
-﻿
-
-storeApp.controller("productController", function ($scope,$http) {
-
-    $scope.message = "Hello";
-    $scope.productsLoading = true;
-    $scope.lul = "lul";
+﻿storeApp.controller("productController", function ($scope) {
+    $scope.productsLoading = false;
 });
